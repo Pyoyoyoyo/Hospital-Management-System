@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.hospitalmanagementsys.HomeView">
+   <children>
+      <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="438.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text layoutX="24.0" layoutY="52.0" style="-fx-fill: #4CAF50;" text="MediCore" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Text>
+            <VBox layoutX="24.0" layoutY="74.4" prefHeight="326.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Нүүр" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Уулзалтууд" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
+                     <VBox.margin>
+                        <Insets top="113.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="160.0" layoutY="100.0" prefHeight="400.0" prefWidth="551.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
+                  <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
+                              <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="24.0" layoutY="24.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
+                  <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
+                              <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

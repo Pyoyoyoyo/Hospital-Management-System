@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E9F1E8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.hospitalmanagementsys.controllers.LoginController">
+    <children>
+        <AnchorPane layoutX="146.0" layoutY="45.0" prefHeight="300.0" prefWidth="308.0" style="-fx-background-color: #ffffff;">
+            <children>
+                <VBox alignment="CENTER" layoutX="68.0" prefHeight="310.0" prefWidth="172.0" spacing="20.0">
+                    <children>
+                        <Text style="-fx-font-size: 28px; -fx-fill: #4CAF50;" text="MediCore" />
+                        <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="193.0" promptText="Нэвтрэх нэр" style="-fx-border-radius: 1000; -fx-background-color: #4CAF5024;" />
+                        <PasswordField fx:id="passwordField" prefHeight="26.0" prefWidth="266.0" promptText="Нууц үг" style="-fx-background-color: #4CAF5024;" />
+                        <Button onAction="#handleLogin" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Нэвтрэх" />
+                        <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPassword" text="Нууц үг мартсан?" />
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
