@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,153 +19,228 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-<children>
-   <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="149.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
-      <children>
-         <Text layoutX="24.0" layoutY="52.0" style="-fx-fill: #4CAF50;" text="MediCore" textAlignment="CENTER">
-            <font>
-               <Font size="26.0" />
-            </font>
-         </Text>
-         <VBox layoutX="24.0" layoutY="74.4" prefHeight="326.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
-            <children>
-               <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Нүүр" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent; -fx-background-color: #9bcc9d;" text="Уулзалтууд" textFill="#4caf50" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
-                  <VBox.margin>
-                     <Insets top="400.0" />
-                  </VBox.margin>
-               </Button>
-            </children>
-         </VBox>
-      </children>
-   </AnchorPane>
-   <AnchorPane layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <children>
-         <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
-            <children>
-               <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
-               <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
-                  <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  </rowConstraints>
-                  <children>
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <children>
-                           <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
-                           <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
-                        </children>
-                     </AnchorPane>
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  </children>
-               </GridPane>
-            </children>
-         </AnchorPane>
-         <AnchorPane layoutX="24.0" layoutY="24.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
-            <children>
-               <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
-               <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
-                  <columnConstraints>
-                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
-                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  </rowConstraints>
-                  <children>
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <children>
-                           <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
-                           <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
-                        </children>
-                     </AnchorPane>
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  </children>
-               </GridPane>
-            </children>
-         </AnchorPane>
-         <AnchorPane layoutX="-4.0" layoutY="1.0" prefHeight="768.0" prefWidth="1206.0">
-            <children>
-               <Label layoutX="57.0" layoutY="32.0" prefHeight="43.0" prefWidth="144.0" text="Эмч Нар" textFill="#374858">
-                  <font>
-                     <Font size="24.0" />
-                  </font>
-               </Label>
-               <HBox alignment="CENTER" layoutX="948.0" layoutY="14.0" prefHeight="64.0" prefWidth="200.0" spacing="20.0">
-                  <children>
-                     <ImageView fitHeight="24.0" fitWidth="24.0">
-                        <image>
-                           <Image url="@../assets/notification.png" />
-                        </image>
-                     </ImageView>
-                     <ImageView fitHeight="40.0" fitWidth="40.0">
-                        <image>
-                           <Image url="@../assets/profile.png" />
-                        </image>
-                     </ImageView>
-                     <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                        <children>
-                           <Label text="Цагаадай" />
-                           <Label text="Эмч" textFill="GREY">
-                              <font>
-                                 <Font size="11.0" />
-                              </font>
-                           </Label>
-                        </children>
-                     </VBox>
-                  </children>
-               </HBox>
-               <AnchorPane layoutX="57.0" layoutY="89.0" prefHeight="622.0" prefWidth="1056.0" style="-fx-background-color: #ffffff;">
-                  <children>
-                     <Button layoutX="820.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10;" text="+ Шинэ уулзалт" textFill="WHITE" />
-                     <Label layoutX="49.0" layoutY="22.0" prefHeight="35.0" prefWidth="144.0" style="-fx-underline: true;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#242222">
-                        <font>
-                           <Font size="14.0" />
-                        </font>
-                     </Label>
-                     <Label layoutX="226.0" layoutY="22.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
-                        <font>
-                           <Font size="14.0" />
-                        </font>
-                     </Label>
-                     <TextField layoutX="49.0" layoutY="70.0" promptText="Search  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-                     <TextField layoutX="226.0" layoutY="69.0" promptText="Огноогоор шүүх" style="-fx-border-color: #4CAF50; -fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-radius: 10;" />
-                     <TableView layoutX="49.0" layoutY="118.0" prefHeight="398.0" prefWidth="935.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
-                        <columns>
-                           <TableColumn prefWidth="257.6000061035156" text="Эмчийн нэр" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;"/>
-                           <TableColumn prefWidth="240.00003051757812" text="Утасны дугаар" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;"/>
-                           <TableColumn prefWidth="152.0" text="Өрөө" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;"/>
-                           <TableColumn prefWidth="212.0" text="Засварлах" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;"/>
-                           <TableColumn prefWidth="68" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;"/>
-                        </columns>
-                     </TableView>
-                     <HBox alignment="CENTER" layoutX="655.0" layoutY="557.0" prefHeight="35.0" prefWidth="329.0" spacing="10.0">
-                        <children>
-                           <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="69.0" style="-fx-background-radius: 10; -fx-background-color: #ffffff;" text="Өмнөх" />
-                           <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="1" textFill="WHITE" />
-                           <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="1" textFill="#4caf50" />
-                           <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="1" textFill="#4caf50" />
-                           <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="1" textFill="#4caf50" />
-                           <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="69.0" style="-fx-background-radius: 10; -fx-background-color: #ffffff;" text="Дараа" textFill="#4caf50" />
-                        </children>
-                     </HBox>
-                  </children>
-               </AnchorPane>
-            </children>
-         </AnchorPane>
-      </children>
-   </AnchorPane>
-</children>
+   <children>
+      <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text layoutX="24.0" layoutY="52.0" style="-fx-fill: #4CAF50;" text="MediCore" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Text>
+            <VBox layoutX="24.0" layoutY="74.4" prefHeight="326.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: #9bcc9d;" text="Нүүр" textFill="#4caf50" />
+                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Уулзалтууд" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
+                     <VBox.margin>
+                        <Insets top="400.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
+                  <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
+                              <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="24.0" layoutY="24.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" style="-fx-background-color: transparent;" text="Нүүр" />
+                  <GridPane hgap="15.0" layoutX="15.0" layoutY="34.0" prefHeight="326.0" prefWidth="382.0" vgap="15.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.79998779296875" minWidth="10.0" prefWidth="191.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.4000244140625" minWidth="10.0" prefWidth="191.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="7.0" layoutY="5.0" style="-fx-background-color: transparent;" text="Статистик" />
+                              <ComboBox layoutX="73.0" layoutY="1.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" visibleRowCount="3" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutY="-13.0" prefHeight="768.0" prefWidth="1206.0">
+               <children>
+                  <Label layoutX="57.0" layoutY="32.0" prefHeight="43.0" prefWidth="144.0" text="Эмч Нар" textFill="#374858">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" layoutX="948.0" layoutY="14.0" prefHeight="64.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0">
+                           <image>
+                              <Image url="@../assets/notification.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0">
+                           <image>
+                              <Image url="@../assets/profile.png" />
+                           </image>
+                        </ImageView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label text="Цагаадай" />
+                              <Label text="Эмч" textFill="GREY">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <AnchorPane layoutX="461.0" layoutY="100.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="29.0" layoutY="4.0" prefHeight="35.0" prefWidth="144.0" style="-fx-underline: true;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#242222">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="188.0" layoutY="4.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TableView layoutX="14.0" layoutY="40.0" prefHeight="270.0" prefWidth="691.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
+                           <columns>
+                              <TableColumn prefWidth="106.39996337890625" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Цаг" />
+                              <TableColumn prefWidth="120.800048828125" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Огноо" />
+                              <TableColumn prefWidth="283.20001220703125" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Өвчтөний нэр" />
+                              <TableColumn prefWidth="181.60009765625" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Эмч" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="29.0" layoutY="100.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="38.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" text="Статистик">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ComboBox layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;" />
+                        <VBox alignment="CENTER" layoutX="38.0" layoutY="56.0" prefHeight="115.0" prefWidth="134.0" style="-fx-background-color: A4D2FF; -fx-border-radius: 15; -fx-background-radius: 15;">
+                           <children>
+                              <ImageView fitHeight="56.0" fitWidth="60.0">
+                                 <image>
+                                    <Image url="@../assets/document.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="100">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Уулзалтууд">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="211.0" layoutY="54.0" prefHeight="120.0" prefWidth="134.0" style="-fx-background-color: A4FFBD; -fx-border-radius: 15; -fx-background-radius: 15;">
+                           <children>
+                              <ImageView fitHeight="56.0" fitWidth="58.0">
+                                 <image>
+                                    <Image url="@../assets/patient.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="50">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Шинэ өвчтөн">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="29.0" layoutY="434.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="38.0" layoutY="14.0" prefHeight="26.0" prefWidth="144.0" text="Төлбөр Статистик">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ComboBox layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;" />
+                        <VBox layoutX="28.0" layoutY="119.0" spacing="10.0">
+                           <children>
+                              <Label text="Төлсөн" />
+                              <Label text="Төлөөгүй" />
+                              <Label text="Хугацаа хэтэрсэн" />
+                              <Label text="Бусад" />
+                           </children>
+                        </VBox>
+                        <PieChart layoutX="160.0" layoutY="80.0" prefHeight="200.0" prefWidth="220.0">
+                           <data>
+                              <PieChart.Data name="Төлсөн" pieValue="40" />
+                              <PieChart.Data name="Төлөөгүй" pieValue="30" />
+                              <PieChart.Data name="Хугацаа хэтэрсэн" pieValue="20" />
+                              <PieChart.Data name="Бусад" pieValue="10" />
+                           </data>
+                        </PieChart>
+                     </children>
+                  </AnchorPane>
+
+                  <AnchorPane layoutX="461.0" layoutY="434.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="29.0" layoutY="4.0" prefHeight="35.0" prefWidth="162.0" text="Өвчтөний модуль" textFill="#242222">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView layoutX="83.0" layoutY="40.0" prefHeight="270.0" prefWidth="520.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
+                           <columns>
+                              <TableColumn prefWidth="519.2000122070312" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Төлбөр" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
