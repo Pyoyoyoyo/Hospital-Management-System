@@ -27,7 +27,7 @@
                   <Font size="26.0" />
                </font>
             </Text>
-            <VBox layoutX="24.0" layoutY="74.4" prefHeight="326.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+            <VBox layoutX="24.0" layoutY="74.4" prefHeight="694.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="753.0" AnchorPane.topAnchor="74.0">
                <children>
                   <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Нүүр" textFill="#4caf50" />
                   <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
@@ -127,18 +127,14 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <AnchorPane layoutX="461.0" layoutY="100.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff;">
+                  <AnchorPane layoutX="461.0" layoutY="100.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
-                        <Label layoutX="29.0" layoutY="4.0" prefHeight="35.0" prefWidth="144.0" style="-fx-underline: true;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#242222">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="188.0" layoutY="4.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
+                        <AnchorPane prefHeight="24.0" prefWidth="715.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: #999999;">
+                           <children>
+                              <Label alignment="CENTER" layoutX="30.0" prefHeight="35.0" prefWidth="144.0" style="-fx-border-color: #4CAF50; -fx-border-width: 0 0 1 0;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#242222" />
+                              <Label alignment="CENTER" layoutX="219.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY" />
+                           </children>
+                        </AnchorPane>
                         <TableView layoutX="14.0" layoutY="40.0" prefHeight="270.0" prefWidth="691.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
                            <columns>
                               <TableColumn prefWidth="106.39996337890625" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Цаг" />
@@ -149,7 +145,7 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="29.0" layoutY="100.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff;">
+                  <AnchorPane layoutX="29.0" layoutY="100.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
                         <Label layoutX="38.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" text="Статистик">
                            <font>
@@ -197,7 +193,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="29.0" layoutY="434.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff;">
+                  <AnchorPane layoutX="29.0" layoutY="434.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
                         <Label layoutX="38.0" layoutY="14.0" prefHeight="26.0" prefWidth="144.0" text="Төлбөр Статистик">
                            <font>
@@ -224,16 +220,16 @@
                      </children>
                   </AnchorPane>
 
-                  <AnchorPane layoutX="461.0" layoutY="434.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff;">
+                  <AnchorPane layoutX="461.0" layoutY="434.0" minHeight="320.0" minWidth="715.0" prefHeight="320.0" prefWidth="715.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
-                        <Label layoutX="29.0" layoutY="4.0" prefHeight="35.0" prefWidth="162.0" text="Өвчтөний модуль" textFill="#242222">
+                        <Label layoutX="29.0" layoutY="4.0" prefHeight="35.0" prefWidth="162.0" text="Өвчтөний төлбөр" textFill="#242222">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <TableView layoutX="83.0" layoutY="40.0" prefHeight="270.0" prefWidth="520.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
                            <columns>
-                              <TableColumn prefWidth="519.2000122070312" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Төлбөр" />
+                              <TableColumn prefWidth="519.2000122070312" style="-fx-background-color: #ffffff;" />
                            </columns>
                         </TableView>
                      </children>
