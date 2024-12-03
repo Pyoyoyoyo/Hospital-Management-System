@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -20,26 +19,38 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
 <children>
-   <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="149.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
+   <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="769.0" prefWidth="783.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
          <Text layoutX="24.0" layoutY="52.0" style="-fx-fill: #4CAF50;" text="MediCore" textAlignment="CENTER">
             <font>
                <Font size="26.0" />
             </font>
          </Text>
-         <VBox layoutX="24.0" layoutY="74.4" prefHeight="326.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+         <AnchorPane layoutX="24.0" layoutY="74.4" prefHeight="695.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1227.0" AnchorPane.topAnchor="74.0">
             <children>
-               <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Нүүр" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Уулзалтууд" textFill="#4caf50" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
-                  <VBox.margin>
-                     <Insets top="400.0" />
-                  </VBox.margin>
+               <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Нүүр" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               <Button layoutY="42.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               <Button layoutY="84.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Уулзалтууд" textFill="#4caf50">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               <Button layoutY="127.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               <Button layoutY="534.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                </Button>
             </children>
-         </VBox>
+         </AnchorPane>
       </children>
    </AnchorPane>
    <AnchorPane layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -152,12 +163,12 @@
                      </HBox>
                      <AnchorPane prefHeight="27.0" prefWidth="1056.0" style="-fx-border-color: transparent transparent #4CAF50 transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #999999;">
                         <children>
-                           <Label alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="35.0" prefWidth="144.0" style="-fx-border-color: #4CAF50; -fx-border-width: 0 0 2 0;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#4caf50">
+                           <Label alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="35.0" prefWidth="173.0" style="-fx-border-color: #4CAF50; -fx-border-width: 0 0 2 0;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#4caf50">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label alignment="CENTER" layoutX="211.0" layoutY="18.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
+                           <Label alignment="CENTER" layoutX="253.0" layoutY="18.0" prefHeight="35.0" prefWidth="200.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
                               <font>
                                  <Font size="14.0" />
                               </font>

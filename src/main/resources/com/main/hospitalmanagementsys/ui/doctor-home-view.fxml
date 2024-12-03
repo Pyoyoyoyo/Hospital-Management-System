@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -18,28 +17,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="400.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="451.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="768.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1204.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text layoutX="24.0" layoutY="52.0" style="-fx-fill: #4CAF50;" text="MediCore" textAlignment="CENTER">
                <font>
                   <Font size="26.0" />
                </font>
             </Text>
-            <VBox layoutX="24.0" layoutY="74.4" prefHeight="694.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="753.0" AnchorPane.topAnchor="74.0">
+            <AnchorPane layoutX="24.0" layoutY="74.4" prefHeight="695.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1227.0" AnchorPane.topAnchor="74.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Нүүр" textFill="#4caf50" />
-                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
-                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Уулзалтууд" textFill="#7f8f98" />
-                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
-                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
-                     <VBox.margin>
-                        <Insets top="400.0" />
-                     </VBox.margin>
+                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Нүүр" textFill="#4caf50">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutY="42.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutY="84.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Уулзалтууд" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutY="127.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutY="534.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Button>
                </children>
-            </VBox>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -98,7 +109,7 @@
             </AnchorPane>
             <AnchorPane layoutY="-13.0" prefHeight="768.0" prefWidth="1206.0">
                <children>
-                  <Label layoutX="57.0" layoutY="32.0" prefHeight="43.0" prefWidth="144.0" text="Эмч Нар" textFill="#374858">
+                  <Label layoutX="57.0" layoutY="32.0" prefHeight="43.0" prefWidth="144.0" text="Нүүр" textFill="#374858">
                      <font>
                         <Font size="24.0" />
                      </font>
