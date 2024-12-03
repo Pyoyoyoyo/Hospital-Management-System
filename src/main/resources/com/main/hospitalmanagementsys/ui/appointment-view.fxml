@@ -31,7 +31,7 @@
             <children>
                <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Нүүр" textFill="#7f8f98" />
                <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Үйлчлүүлэгчид" textFill="#7f8f98" />
-               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent; -fx-background-color: #9bcc9d;" text="Уулзалтууд" textFill="#4caf50" />
+               <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: rgba(76, 175, 80, 0.1);" text="Уулзалтууд" textFill="#4caf50" />
                <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Эмч нар" textFill="#7f8f98" />
                <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" style="-fx-background-color: transparent;" text="Гарах" textFill="#7f8f98">
                   <VBox.margin>
