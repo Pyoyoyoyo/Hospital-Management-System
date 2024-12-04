@@ -4,8 +4,7 @@ module com.main.hospitalmanagementsys {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
-    requires org.mongodb.driver.sync.client;
-    requires org.mongodb.bson;
+    requires java.sql;
 
     opens com.main.hospitalmanagementsys to javafx.fxml;
     exports com.main.hospitalmanagementsys;
