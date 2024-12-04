@@ -1,0 +1,77 @@
+CREATE TABLE hospital (
+  id SERIAL PRIMARY KEY,           -- код
+  name VARCHAR,                    -- нэр
+  location VARCHAR                 -- байршил
+);
+
+CREATE TABLE person (
+  id SERIAL PRIMARY KEY,           -- код
+  registration_number VARCHAR,      -- бүртгэлийн_дугаар
+  name VARCHAR,                    -- нэр
+  address VARCHAR,                  -- хаяг
+  contact_number VARCHAR,           -- холбоо_барих_дугаар
+  email VARCHAR,                    -- имэйл
+  language_support VARCHAR,         -- хэлний_дэмжлэг
+  role VARCHAR                      -- төрөл
+);
+
+CREATE TABLE doctor (
+  id SERIAL PRIMARY KEY,           -- код
+  specialization VARCHAR,           -- мэргэжил
+  doctor_id INTEGER,                -- эмч_код
+  person_id INTEGER REFERENCES person(id),  -- хүн_код
+  hospital_id INTEGER REFERENCES hospital(id) -- эмнэлэг_код
+);
+
+CREATE TABLE patient (
+  id SERIAL PRIMARY KEY,           -- код
+  medical_history VARCHAR,         -- эмнэлгийн_түүх
+  patient_id INTEGER,              -- өвчтөн_код
+  insurance_information VARCHAR,   -- даатгалын_мэдээлэл
+  person_id INTEGER REFERENCES person(id),  -- хүн_код
+  hospital_id INTEGER REFERENCES hospital(id) -- эмнэлэг_код
+);
+
+CREATE TABLE admin (
+  id SERIAL PRIMARY KEY,           -- код
+  admin_id INTEGER,                -- админ_код
+  person_id INTEGER REFERENCES person(id),  -- хүн_код
+  hospital_id INTEGER REFERENCES hospital(id) -- эмнэлэг_код
+);
+
+CREATE TABLE nurse (
+  id SERIAL PRIMARY KEY,           -- код
+  nurse_id INTEGER,                -- сувилагч_код
+  professional_level VARCHAR,      -- мэргэжлийн_түвшин
+  person_id INTEGER REFERENCES person(id),  -- хүн_код
+  hospital_id INTEGER REFERENCES hospital(id) -- эмнэлэг_код
+);
+
+CREATE TABLE appointment_record (
+  id SERIAL PRIMARY KEY,           -- код
+  appointment_code INTEGER,        -- цагийн_код
+  date TIMESTAMP,                  -- өдөр
+  time VARCHAR,                    -- цаг
+  status VARCHAR,                  -- төлөв
+  doctor_id INTEGER REFERENCES doctor(id),   -- эмч_код
+  patient_id INTEGER REFERENCES patient(id)  -- өвчтөн_код
+);
+
+CREATE TABLE medical_history (
+  id SERIAL PRIMARY KEY,           -- код
+  record_code INTEGER,             -- бичлэгийн_код
+  diagnosis VARCHAR,               -- онош
+  prescription VARCHAR,            -- жор
+  notes VARCHAR,                   -- тэмдэглэл
+  doctor_id INTEGER REFERENCES doctor(id),   -- эмч_код
+  patient_id INTEGER REFERENCES patient(id)  -- өвчтөн_код
+);
+
+CREATE TABLE payment (
+  id SERIAL PRIMARY KEY,           -- код
+  payment_code INTEGER,            -- төлбөрийн_код
+  amount FLOAT,                    -- хэмжээ
+  date TIMESTAMP,                  -- огноо
+  status VARCHAR,                  -- төлөв
+  patient_id INTEGER REFERENCES patient(id) -- өвчтөн_код
+);

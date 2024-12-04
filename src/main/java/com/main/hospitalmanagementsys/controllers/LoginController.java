@@ -2,7 +2,15 @@ package com.main.hospitalmanagementsys.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
 
@@ -16,28 +24,35 @@ public class LoginController {
     private Hyperlink forgotPasswordLink;
 
     @FXML
-    private void handleLogin() {
+    private void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "Please fill in both fields.");
+        if (username.equals("admin") && password.equals("admin123")) {
+            loadDoctorsView();
         } else {
-            // Add logic to validate username and password
-            showAlert("Success", "Login successful!");
+            System.out.println("Invalid credentials. Please try again.");
+        }
+    }
+
+    private void loadDoctorsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml"));
+            AnchorPane doctorsView = loader.load();
+
+            Scene doctorsScene = new Scene(doctorsView);
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(doctorsScene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleForgotPassword() {
-        showAlert("Info", "Password recovery feature is not implemented yet.");
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void handleForgotPassword(ActionEvent event) {
+        System.out.println("Forgot password.");
     }
 }

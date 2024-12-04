@@ -19,7 +19,6 @@
                         <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="193.0" promptText="Нэвтрэх нэр" style="-fx-border-radius: 1000; -fx-background-color: #4CAF5024;" />
                         <PasswordField fx:id="passwordField" prefHeight="26.0" prefWidth="266.0" promptText="Нууц үг" style="-fx-background-color: #4CAF5024;" />
                         <Button onAction="#handleLogin" prefHeight="26.0" prefWidth="174.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Нэвтрэх" />
-                  <ComboBox prefHeight="26.0" prefWidth="98.0" promptText="Эмч" style="-fx-background-color: #f4f4f4;" />
                         <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPassword" text="Нууц үг мартсан?" />
                     </children>
                 </VBox>
