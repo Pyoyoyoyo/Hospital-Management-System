@@ -1,6 +1,7 @@
 package com.main.hospitalmanagementsys.database;
 
 import com.main.hospitalmanagementsys.model.Appointment;
+import com.main.hospitalmanagementsys.model.Patient;
 import com.main.hospitalmanagementsys.model.PatientPayment;
 
 import java.sql.*;
@@ -178,6 +179,121 @@ public class DatabaseConnector {
 
         return payments;
     }
+
+    public static List<Patient> getAllPatients() {
+        List<Patient> patients = new ArrayList<>();
+        String query = "SELECT p.name, p.contact_number, p.address, p.email, pt.medical_history, pt.insurance_information, p.registration_number " +
+                "FROM person p " +
+                "JOIN patient pt ON p.id = pt.person_id";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String contactNumber = rs.getString("contact_number");
+                String address = rs.getString("address");
+                String email = rs.getString("email");
+                String medicalHistory = rs.getString("medical_history");
+                String insuranceInformation = rs.getString("insurance_information");
+                String registrationNumber = rs.getString("registration_number");
+
+                // Assuming Patient constructor takes these fields
+                Patient patient = new Patient(name, medicalHistory, insuranceInformation, registrationNumber,
+                        contactNumber, address, email);
+                patients.add(patient);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patients;
+    }
+
+    public static boolean addNewPatient(Patient patient) {
+        String insertPersonQuery = "INSERT INTO person (name, contact_number, address, email, registration_number) VALUES (?, ?, ?, ?, ?)";
+        String insertPatientQuery = "INSERT INTO patient (medical_history, insurance_information, person_id) VALUES (?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+            try (PreparedStatement insertPersonStmt = conn.prepareStatement(insertPersonQuery, Statement.RETURN_GENERATED_KEYS)) {
+                insertPersonStmt.setString(1, patient.getPatientName());
+                insertPersonStmt.setString(2, patient.getContactNumber());
+                insertPersonStmt.setString(3, patient.getAddress());
+                insertPersonStmt.setString(4, patient.getEmail());
+                insertPersonStmt.setString(5, patient.getRegistrationNumber());
+
+                int affectedRows = insertPersonStmt.executeUpdate();
+
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = insertPersonStmt.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int personId = generatedKeys.getInt(1);
+
+                            try (PreparedStatement insertPatientStmt = conn.prepareStatement(insertPatientQuery)) {
+                                insertPatientStmt.setString(1, patient.getMedicalHistory());
+                                insertPatientStmt.setString(2, patient.getInsuranceInformation());
+                                insertPatientStmt.setInt(3, personId);
+
+                                int patientRowsAffected = insertPatientStmt.executeUpdate();
+                                return patientRowsAffected > 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean updatePatient(Patient patient) {
+        String updatePersonQuery = "UPDATE person SET name = ?, contact_number = ?, address = ?, email = ? WHERE registration_number = ?";
+        String updatePatientQuery = "UPDATE patient SET medical_history = ?, insurance_information = ? WHERE person_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement updatePersonStmt = conn.prepareStatement(updatePersonQuery);
+             PreparedStatement updatePatientStmt = conn.prepareStatement(updatePatientQuery)) {
+
+            updatePersonStmt.setString(1, patient.getPatientName());
+            updatePersonStmt.setString(2, patient.getContactNumber());
+            updatePersonStmt.setString(3, patient.getAddress());
+            updatePersonStmt.setString(4, patient.getEmail());
+
+            updatePersonStmt.setString(5, patient.getRegistrationNumber());  // registration_number is now treated as a String
+
+            int personRowsAffected = updatePersonStmt.executeUpdate();
+
+            String getPersonIdQuery = "SELECT id FROM person WHERE registration_number = ?";
+            try (PreparedStatement getPersonIdStmt = conn.prepareStatement(getPersonIdQuery)) {
+                getPersonIdStmt.setString(1, patient.getRegistrationNumber());
+                ResultSet rs = getPersonIdStmt.executeQuery();
+
+                if (rs.next()) {
+                    int personId = rs.getInt("id");
+
+                    updatePatientStmt.setString(1, patient.getMedicalHistory());
+                    updatePatientStmt.setString(2, patient.getInsuranceInformation());
+
+                    updatePatientStmt.setInt(3, personId);
+
+                    int patientRowsAffected = updatePatientStmt.executeUpdate();
+
+                    return personRowsAffected > 0 && patientRowsAffected > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 
     public static void main(String[] args) {
         Connection conn = connect();

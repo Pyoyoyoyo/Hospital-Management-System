@@ -129,6 +129,7 @@ INSERT INTO payment (payment_code, amount, date, status, patient_id) VALUES
 (702, 150.75, '2024-12-02 15:00:00', 'Paid', 22),
 (703, 120.00, '2024-12-03 16:00:00', 'Unpaid', 23),
 (704, 180.00, '2024-12-04 17:00:00', 'Paid', 24);
+(708, 180.00, '2024-08-20 11:00:00', 'overdue', 204);
 
 
 SELECT * FROM person
