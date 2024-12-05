@@ -4,6 +4,8 @@ module com.main.hospitalmanagementsys {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
+    requires java.sql;
+
 
     opens com.main.hospitalmanagementsys to javafx.fxml;
     exports com.main.hospitalmanagementsys;

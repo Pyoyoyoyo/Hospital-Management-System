@@ -146,14 +146,15 @@
                               <Label alignment="CENTER" layoutX="219.0" prefHeight="35.0" prefWidth="183.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY" />
                            </children>
                         </AnchorPane>
-                        <TableView layoutX="14.0" layoutY="40.0" prefHeight="270.0" prefWidth="691.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
+                        <TableView fx:id="AppointmentsTableView" layoutX="14.0" layoutY="40.0" prefHeight="270.0" prefWidth="691.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
                            <columns>
-                              <TableColumn prefWidth="106.39996337890625" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Цаг" />
-                              <TableColumn prefWidth="120.800048828125" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Огноо" />
-                              <TableColumn prefWidth="283.20001220703125" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Өвчтөний нэр" />
-                              <TableColumn prefWidth="181.60009765625" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;" text="Эмч" />
+                              <TableColumn fx:id="timeColumn" prefWidth="106.0" text="Цаг" />
+                              <TableColumn fx:id="dateColumn" prefWidth="120.8" text="Огноо" />
+                              <TableColumn fx:id="patientNameColumn" prefWidth="283.2" text="Өвчтөний нэр" />
+                              <TableColumn fx:id="doctorNameColumn" prefWidth="181.6" text="Эмч" />
                            </columns>
                         </TableView>
+
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="29.0" layoutY="100.0" prefHeight="320.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
@@ -163,7 +164,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ComboBox layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;" />
+                        <ComboBox fx:id="timePeriodComboBox" layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;" />
                         <VBox alignment="CENTER" layoutX="38.0" layoutY="56.0" prefHeight="115.0" prefWidth="134.0" style="-fx-background-color: A4D2FF; -fx-border-radius: 15; -fx-background-radius: 15;">
                            <children>
                               <ImageView fitHeight="56.0" fitWidth="60.0">
@@ -171,16 +172,17 @@
                                     <Image url="@../assets/document.png" />
                                  </image>
                               </ImageView>
-                              <Label text="100">
+                              <Label fx:id="appointmentCountLabel" text="0">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label text="Уулзалтууд">
+                              <Label fx:id="appointmentsLabel" text="Уулзалтууд">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
+
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="211.0" layoutY="54.0" prefHeight="120.0" prefWidth="134.0" style="-fx-background-color: A4FFBD; -fx-border-radius: 15; -fx-background-radius: 15;">
@@ -190,7 +192,7 @@
                                     <Image url="@../assets/patient.png" />
                                  </image>
                               </ImageView>
-                              <Label text="50">
+                              <Label fx:id="newPatientCountLabel" text="50">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>

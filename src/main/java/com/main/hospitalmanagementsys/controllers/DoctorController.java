@@ -1,11 +1,21 @@
 package com.main.hospitalmanagementsys.controllers;
 
+import com.main.hospitalmanagementsys.model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import com.main.hospitalmanagementsys.database.DatabaseConnector;
+
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class DoctorController {
 
@@ -31,10 +41,52 @@ public class DoctorController {
 
     @FXML
     private AnchorPane patientsinfopage;
+    @FXML
+    private Label appointmentCountLabel;
 
+    @FXML
+    private Label newPatientCountLabel;
+
+    @FXML
+    private ComboBox<String> timePeriodComboBox;
+    @FXML
+    private TableView<Appointment> AppointmentsTableView;
+
+    @FXML
+    private TableColumn<Appointment, String> timeColumn;
+
+    @FXML
+    private TableColumn<Appointment, LocalDate> dateColumn;
+
+    @FXML
+    private TableColumn<Appointment, String> patientNameColumn;
+
+    @FXML
+    private TableColumn<Appointment, String> doctorNameColumn;
 
     @FXML
     public void initialize() {
+        timePeriodComboBox.getItems().addAll("7 хоногоор", "14 хоногоор", "1 сараар");
+        timePeriodComboBox.setOnAction(event -> {
+            String selectedValue = timePeriodComboBox.getSelectionModel().getSelectedItem();
+            if (selectedValue != null) {
+                int count = DatabaseConnector.getActiveAppointmentsCountByDateRange(selectedValue);
+                appointmentCountLabel.setText(String.valueOf(count));
+            }
+        });
+
+        int count = DatabaseConnector.getNewAppointmentsCountByOneDayRange();
+        newPatientCountLabel.setText(String.valueOf(count));
+
+        timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
+        dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+        patientNameColumn.setCellValueFactory(cellData -> cellData.getValue().patientNameProperty());
+        doctorNameColumn.setCellValueFactory(cellData -> cellData.getValue().doctorNameProperty());
+
+        List<Appointment> appointments = DatabaseConnector.getActiveAppointments();
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
+        AppointmentsTableView.setItems(appointmentList);;
+
         resetButtonStyles();
         setButtonSelected(homeButton);
 
@@ -63,7 +115,6 @@ public class DoctorController {
             logout();
         });
     }
-
 
     private void resetButtonStyles() {
         resetButtonStyle(homeButton);
@@ -130,6 +181,7 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+
 
     private void logout() {
         try {
