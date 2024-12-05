@@ -37,6 +37,9 @@ public class DoctorController {
     private AnchorPane doctorspage;
 
     @FXML
+    private AnchorPane appointmentpage;
+
+    @FXML
     private AnchorPane patientsinfopage;
     @FXML
     private Label appointmentCountLabel;
@@ -133,7 +136,16 @@ public class DoctorController {
         resetButtonStyles();
         setButtonSelected(clickedButton);
     }
-
+    private void navigateToHome() {
+        try {
+            doctorspage.setVisible(false);
+            patientsinfopage.setVisible(false);
+            homepage.setVisible(true);
+            appointmentpage.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void navigateToClients() {
         System.out.println("Navigating to Clients");
@@ -142,24 +154,21 @@ public class DoctorController {
             doctorspage.setVisible(false);
             patientsinfopage.setVisible(true);
             homepage.setVisible(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void navigateToHome() {
-        try {
-            doctorspage.setVisible(false);
-            patientsinfopage.setVisible(false);
-            homepage.setVisible(true);
-
+            appointmentpage.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void navigateToAppointments() {
-        System.out.println("Navigating to Appointments");
+        try {
+            doctorspage.setVisible(false);
+            patientsinfopage.setVisible(false);
+            homepage.setVisible(false);
+            appointmentpage.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void navigateToDoctors() {
@@ -167,7 +176,7 @@ public class DoctorController {
             doctorspage.setVisible(true);
             patientsinfopage.setVisible(false);
             homepage.setVisible(false);
-
+            appointmentpage.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
