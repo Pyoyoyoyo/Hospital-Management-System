@@ -1,21 +1,30 @@
 package com.main.hospitalmanagementsys.controllers;
 
 import com.main.hospitalmanagementsys.model.Appointment;
+import com.main.hospitalmanagementsys.model.PatientPayment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import com.main.hospitalmanagementsys.database.DatabaseConnector;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DoctorController {
 
@@ -65,6 +74,21 @@ public class DoctorController {
     private TableColumn<Appointment, String> doctorNameColumn;
 
     @FXML
+    private PieChart pieChart;
+
+    @FXML
+    private ComboBox<String> timeRangeComboBox;
+
+    @FXML
+    private TableView<PatientPayment> tableView;
+
+    @FXML
+    private TableColumn<PatientPayment, String> patientNameColumnonPayment;
+
+    @FXML
+    private TableColumn<PatientPayment, String> claimPaymentColumn;
+
+    @FXML
     public void initialize() {
         timePeriodComboBox.getItems().addAll("7 хоногоор", "14 хоногоор", "1 сараар");
         timePeriodComboBox.setOnAction(event -> {
@@ -85,7 +109,34 @@ public class DoctorController {
 
         List<Appointment> appointments = DatabaseConnector.getActiveAppointments();
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
-        AppointmentsTableView.setItems(appointmentList);;
+        AppointmentsTableView.setItems(appointmentList);
+
+        timeRangeComboBox.getSelectionModel().select("7 хоногоор");
+        timeRangeComboBox.setOnAction(event -> updatePieChart());
+        updatePieChart();
+
+        patientNameColumnonPayment.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        claimPaymentColumn.setCellFactory(param -> new TableCell<PatientPayment, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Button claimButton = new Button("Claim Payment");
+
+                    claimButton.setOnAction(event -> {
+                        PatientPayment patient = getTableView().getItems().get(getIndex());
+                        claimPayment(patient);
+                    });
+
+                    setGraphic(claimButton);
+                }
+            }
+        });
+
+        populateTable();
 
         resetButtonStyles();
         setButtonSelected(homeButton);
@@ -182,6 +233,36 @@ public class DoctorController {
         }
     }
 
+    private void updatePieChart() {
+        String selectedRange = timeRangeComboBox.getSelectionModel().getSelectedItem();
+
+        Map<String, Integer> paymentCounts = DatabaseConnector.getPaymentStatusCounts(selectedRange);
+
+        PieChart.Data paidSlice = new PieChart.Data("Төлсөн", paymentCounts.getOrDefault("Paid", 0));
+        PieChart.Data unpaidSlice = new PieChart.Data("Төлөөгүй", paymentCounts.getOrDefault("Unpaid", 0));
+        PieChart.Data overdue = new PieChart.Data("Хугацаа хэтэрсэн", paymentCounts.getOrDefault("Overdue", 0));
+
+
+        pieChart.getData().clear();
+        pieChart.getData().addAll(paidSlice, unpaidSlice, overdue);
+    }
+
+    private void populateTable() {
+        List<PatientPayment> patientPayments = DatabaseConnector.getPatientPaymentsFromDatabase();
+
+        ObservableList<PatientPayment> data = FXCollections.observableArrayList(patientPayments);
+        tableView.setItems(data);
+    }
+
+
+    private void claimPayment(PatientPayment patient) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Нэхэмжлэл Илгээх");
+        alert.setHeaderText("Нэхэмжлэл илгээгдлээ");
+        alert.setContentText("Үйлчлүүлэгч: " + patient.getPatientName() + "\nТөлбөрийн байдал: " + patient.getPaymentStatus());
+
+        alert.showAndWait();
+    }
 
     private void logout() {
         try {

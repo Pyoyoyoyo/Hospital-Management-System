@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -17,6 +18,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.hospitalmanagementsys.controllers.DoctorController">
    <children>
       <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="768.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1204.0" AnchorPane.topAnchor="0.0">
@@ -213,15 +216,16 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ComboBox layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;" />
-                        <VBox layoutX="28.0" layoutY="119.0" spacing="10.0">
-                           <children>
-                              <Label text="Төлсөн" />
-                              <Label text="Төлөөгүй" />
-                              <Label text="Хугацаа хэтэрсэн" />
-                              <Label text="Бусад" />
-                           </children>
-                        </VBox>
+                        <ComboBox fx:id="timeRangeComboBox" layoutX="211.0" layoutY="15.0" prefHeight="26.0" prefWidth="106.0" promptText="7 хоногоор" style="-fx-background-color: #ffffff;">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="7 хоногоор" />
+                                 <String fx:value="14 хоногоор" />
+                                 <String fx:value="1 сараар" />
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
+                        <PieChart fx:id="pieChart" layoutY="41.0" prefHeight="280.0" prefWidth="400.0" />
                      </children>
                   </AnchorPane>
 
@@ -232,11 +236,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="83.0" layoutY="40.0" prefHeight="270.0" prefWidth="520.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
+                        <TableView fx:id="tableView" layoutX="83.0" layoutY="40.0" prefHeight="270.0" prefWidth="520.0" style="-fx-background-color: #ffffff; -fx-border-width: 0 0 1px 0; -fx-border-color: black;">
                            <columns>
-                              <TableColumn prefWidth="519.2000122070312" style="-fx-background-color: #ffffff;" />
+                              <TableColumn fx:id="patientNameColumnonPayment" text="Patient Name" prefWidth="300.0" />
+                              <TableColumn fx:id="claimPaymentColumn" text="Action" prefWidth="200.0" />
                            </columns>
                         </TableView>
+
                      </children>
                   </AnchorPane>
                </children>
@@ -369,7 +375,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="appointmentpage" layoutX="170.0" prefHeight="880.0" prefWidth="1122.0" style="-fx-background-color: #E9F1E8;" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="appointmentpage" layoutX="170.0" prefHeight="880.0" prefWidth="1122.0" style="-fx-background-color: #E9F1E8;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane layoutY="100.0" prefHeight="769.0" prefWidth="1206.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
