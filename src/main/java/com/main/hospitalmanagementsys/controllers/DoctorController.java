@@ -1,8 +1,11 @@
 package com.main.hospitalmanagementsys.controllers;
 
 import com.main.hospitalmanagementsys.model.Appointment;
+import com.main.hospitalmanagementsys.model.DetailedAppointment;
 import com.main.hospitalmanagementsys.model.Patient;
 import com.main.hospitalmanagementsys.model.PatientPayment;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,16 +25,12 @@ import javafx.stage.Stage;
 import com.main.hospitalmanagementsys.database.DatabaseConnector;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.main.hospitalmanagementsys.database.DatabaseConnector.getDetailedAppointments;
 
 
 public class DoctorController {
@@ -43,17 +43,12 @@ public class DoctorController {
     @FXML
     private Button appointmentsButton;
     @FXML
-    private Button doctorsButton;
-    @FXML
     private Button logoutButton;
     @FXML
     private AnchorPane homepage;
 
     @FXML
     private Button addpatientbutton;
-
-    @FXML
-    private AnchorPane doctorspage;
 
     @FXML
     private AnchorPane appointmentpage;
@@ -93,7 +88,7 @@ public class DoctorController {
     private TableView<PatientPayment> tableView;
 
     @FXML
-    private TableColumn<PatientPayment, String> patientNameColumnonPayment;
+    private TableColumn<PatientPayment, String> patientNameColumnOnPayment;
 
     @FXML
     private TableColumn<PatientPayment, String> claimPaymentColumn;
@@ -131,6 +126,22 @@ public class DoctorController {
     private ObservableList<Patient> patientList;
 
     @FXML
+    private TableView<DetailedAppointment> DetailedAppointmentsTableView;
+    @FXML
+    private TableColumn<DetailedAppointment, String> appointmentTimeColumn;
+    @FXML
+    private TableColumn<DetailedAppointment, String> appointmentDateColumn;
+    @FXML
+    private TableColumn<DetailedAppointment, String> appointmentPatientNameColumn;
+    @FXML
+    private TableColumn<DetailedAppointment, String> appointmentDoctorNameColumn;
+    @FXML
+    private TableColumn<DetailedAppointment, String> appointmentPaymentStateColumn;
+    @FXML
+    private TableColumn<DetailedAppointment, Void> appointmentEditColumn;
+
+
+    @FXML
     public void initialize() {
         timePeriodComboBox.getItems().addAll("7 хоногоор", "14 хоногоор", "1 сараар");
         timePeriodComboBox.setOnAction(event -> {
@@ -158,7 +169,7 @@ public class DoctorController {
         updatePieChart();
         patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
         patientTableView.setItems(patientList);
-        patientNameColumnonPayment.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        patientNameColumnOnPayment.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         claimPaymentColumn.setCellFactory(param -> new TableCell<PatientPayment, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -167,7 +178,7 @@ public class DoctorController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    Button claimButton = new Button("Claim Payment");
+                    Button claimButton = new Button("Төлбөр Нэхэмжлэх");
 
                     claimButton.setOnAction(event -> {
                         PatientPayment patient = getTableView().getItems().get(getIndex());
@@ -199,11 +210,6 @@ public class DoctorController {
             navigateToAppointments();
         });
 
-        doctorsButton.setOnAction(event -> {
-            onButtonClick(doctorsButton);
-            navigateToDoctors();
-        });
-
         logoutButton.setOnAction(event -> {
             onButtonClick(logoutButton);
             logout();
@@ -217,13 +223,54 @@ public class DoctorController {
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         editColumn.setCellFactory(param -> new TableCell<Patient, Void>() {
-            private final Button editButton = new Button("Edit");
+            private final Button editButton = new Button("Засах");
+            private final Button deleteButton = new Button("Устгах");
 
             {
                 editButton.setOnAction(event -> {
                     Patient patient = getTableRow().getItem();
                     if (patient != null) {
                         handleEditButton(patient);
+                    }
+                });
+
+                deleteButton.setOnAction(event -> {
+                    Patient patient = getTableRow().getItem();
+                    if (patient != null) {
+                        handleDeleteButton(patient);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    HBox buttonBox = new HBox(10, editButton, deleteButton);
+                    setGraphic(buttonBox);
+                }
+            }
+        });
+
+        addpatientbutton.setOnAction(event -> handleAddPatientButton());
+        loadPatientData();
+        setupSearch();
+
+        appointmentTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
+        appointmentDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        appointmentPatientNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatientName()));
+        appointmentDoctorNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDoctorName()));
+        appointmentPaymentStateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentStatus()));
+        appointmentEditColumn.setCellFactory(param -> new TableCell<DetailedAppointment, Void>() {
+            private final Button editButton = new Button("Засах");
+
+            {
+                editButton.setOnAction(event -> {
+                    DetailedAppointment appointment = getTableRow().getItem();
+                    if (appointment != null) {
+                        handleEditAppointment(appointment);
                     }
                 });
             }
@@ -238,16 +285,21 @@ public class DoctorController {
                 }
             }
         });
-        addpatientbutton.setOnAction(event -> handleAddPatientButton());
-        loadPatientData();
-        setupSearch();
+
+        List<DetailedAppointment> detailedAppointments = getDetailedAppointments();
+        ObservableList<DetailedAppointment> detailedAppointmentList = FXCollections.observableArrayList(detailedAppointments);
+        DetailedAppointmentsTableView.setItems(detailedAppointmentList);
     }
+
+    private void handleEditAppointment(DetailedAppointment appointment) {
+        System.out.println("Editing appointment: " + appointment.getPatientName());
+    }
+
 
     private void resetButtonStyles() {
         resetButtonStyle(homeButton);
         resetButtonStyle(clientsButton);
         resetButtonStyle(appointmentsButton);
-        resetButtonStyle(doctorsButton);
         resetButtonStyle(logoutButton);
     }
 
@@ -265,7 +317,6 @@ public class DoctorController {
     }
     private void navigateToHome() {
         try {
-            doctorspage.setVisible(false);
             patientsinfopage.setVisible(false);
             homepage.setVisible(true);
             appointmentpage.setVisible(false);
@@ -278,7 +329,6 @@ public class DoctorController {
         System.out.println("Navigating to Clients");
 
         try {
-            doctorspage.setVisible(false);
             patientsinfopage.setVisible(true);
             homepage.setVisible(false);
             appointmentpage.setVisible(false);
@@ -289,21 +339,9 @@ public class DoctorController {
 
     private void navigateToAppointments() {
         try {
-            doctorspage.setVisible(false);
             patientsinfopage.setVisible(false);
             homepage.setVisible(false);
             appointmentpage.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void navigateToDoctors() {
-        try {
-            doctorspage.setVisible(true);
-            patientsinfopage.setVisible(false);
-            homepage.setVisible(false);
-            appointmentpage.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -503,6 +541,23 @@ public class DoctorController {
             }
         });
     }
+
+    private void handleDeleteButton(Patient patient) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Бататгах");
+        alert.setHeaderText("Энэхүү өвчтөнийг устгахдаа итгэлтэй байна уу?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = DatabaseConnector.deletePatient(patient);
+            if (success) {
+                patientList.remove(patient);
+            } else {
+                showErrorDialog("Deletion failed", "There was an error while deleting the patient.");
+            }
+        }
+    }
+
 
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

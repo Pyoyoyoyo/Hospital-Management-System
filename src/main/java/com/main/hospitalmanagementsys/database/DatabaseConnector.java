@@ -1,6 +1,7 @@
 package com.main.hospitalmanagementsys.database;
 
 import com.main.hospitalmanagementsys.model.Appointment;
+import com.main.hospitalmanagementsys.model.DetailedAppointment;
 import com.main.hospitalmanagementsys.model.Patient;
 import com.main.hospitalmanagementsys.model.PatientPayment;
 
@@ -24,12 +25,21 @@ public class DatabaseConnector {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connected to the PostgreSQL database!");
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Connection failed!");
+        } catch (SQLException e) {
+            System.out.println("Connection failed due to SQLException.");
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("PostgreSQL Driver not found.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred.");
+            e.printStackTrace();
+        }
+
+        if (connection == null) {
+            System.out.println("Connection object is null.");
         }
         return connection;
     }
@@ -109,6 +119,51 @@ public class DatabaseConnector {
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appointments;
+    }
+
+    public static List<DetailedAppointment> getDetailedAppointments() {
+        List<DetailedAppointment> appointments = new ArrayList<>();
+        String query = "SELECT ar.time, ar.date, p1.name AS patient_name, " +
+                "p2.name AS doctor_name, pay.status AS payment_status " +
+                "FROM appointment_record ar " +
+                "JOIN patient p ON ar.patient_id = p.id " +
+                "JOIN doctor d ON ar.doctor_id = d.id " +
+                "JOIN person p1 ON p.person_id = p1.id " +
+                "JOIN person p2 ON d.person_id = p2.id " +
+                "JOIN payment pay ON ar.patient_id = pay.patient_id " +
+                "WHERE ar.status = 'active'";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String time = rs.getString("time");
+                LocalDate date = null;
+
+                try {
+                    date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
+                } catch (Exception e) {
+                    System.out.println("Error converting date: " + e.getMessage());
+                }
+
+                String patientName = rs.getString("patient_name");
+                String doctorName = rs.getString("doctor_name");
+                String paymentStatus = rs.getString("payment_status");
+
+                if (patientName != null && doctorName != null && paymentStatus != null) {
+                    DetailedAppointment appointment = new DetailedAppointment(time, date, patientName,
+                            doctorName, paymentStatus);
+                    appointments.add(appointment);
+                } else {
+                    System.out.println("Skipping appointment due to missing data.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
             e.printStackTrace();
         }
         return appointments;
@@ -214,7 +269,8 @@ public class DatabaseConnector {
         String insertPersonQuery = "INSERT INTO person (name, contact_number, address, email, registration_number) VALUES (?, ?, ?, ?, ?)";
         String insertPatientQuery = "INSERT INTO patient (medical_history, insurance_information, person_id) VALUES (?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        try (Connection conn = connect()) {
+            conn.setAutoCommit(false);
 
             try (PreparedStatement insertPersonStmt = conn.prepareStatement(insertPersonQuery, Statement.RETURN_GENERATED_KEYS)) {
                 insertPersonStmt.setString(1, patient.getPatientName());
@@ -236,17 +292,19 @@ public class DatabaseConnector {
                                 insertPatientStmt.setInt(3, personId);
 
                                 int patientRowsAffected = insertPatientStmt.executeUpdate();
+                                conn.commit();
                                 return patientRowsAffected > 0;
                             }
                         }
                     }
                 }
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -292,7 +350,30 @@ public class DatabaseConnector {
 
         return false;
     }
+    public static boolean deletePatient(Patient patient) {
+        String deletePatientQuery = "DELETE FROM patient WHERE person_id = (SELECT id FROM person WHERE registration_number = ?)";
+        String deletePersonQuery = "DELETE FROM person WHERE registration_number = ?";
 
+        try (Connection conn = connect();
+             PreparedStatement deletePatientStmt = conn.prepareStatement(deletePatientQuery);
+             PreparedStatement deletePersonStmt = conn.prepareStatement(deletePersonQuery)) {
+
+            // First, delete the patient details from the patient table
+            deletePatientStmt.setString(1, patient.getRegistrationNumber());
+            int patientRowsAffected = deletePatientStmt.executeUpdate();
+
+            // Then, delete the person record from the person table
+            deletePersonStmt.setString(1, patient.getRegistrationNumber());
+            int personRowsAffected = deletePersonStmt.executeUpdate();
+
+            return patientRowsAffected > 0 && personRowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
 
     public static void main(String[] args) {
