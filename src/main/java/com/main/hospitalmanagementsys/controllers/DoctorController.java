@@ -156,7 +156,8 @@ public class DoctorController {
         timeRangeComboBox.getSelectionModel().select("7 хоногоор");
         timeRangeComboBox.setOnAction(event -> updatePieChart());
         updatePieChart();
-
+        patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
+        patientTableView.setItems(patientList);
         patientNameColumnonPayment.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         claimPaymentColumn.setCellFactory(param -> new TableCell<PatientPayment, String>() {
             @Override
@@ -239,6 +240,7 @@ public class DoctorController {
         });
         addpatientbutton.setOnAction(event -> handleAddPatientButton());
         loadPatientData();
+        setupSearch();
     }
 
     private void resetButtonStyles() {
@@ -338,11 +340,39 @@ public class DoctorController {
         alert.showAndWait();
     }
 
+    private void setupSearch() {
+        FilteredList<Patient> filteredList = new FilteredList<>(patientList, p -> true);
+
+        searchFieldOnPatient.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Text entered: " + newValue);
+
+            filteredList.setPredicate(patient -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase().trim();
+                String patientName = patient.getPatientName().toLowerCase().trim();
+
+                boolean matches = patientName.contains(lowerCaseFilter);
+                System.out.println("Patient matches filter: " + matches);  // Debug line
+
+                return matches;
+            });
+        });
+
+        patientTableView.setItems(filteredList);
+    }
+
+
     private void loadPatientData() {
-        List<Patient> patients = DatabaseConnector.getAllPatients();
-        patientList = FXCollections.observableArrayList(patients);
+        patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
+
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPatientNameProperty());
+
         patientTableView.setItems(patientList);
     }
+
 
     private void handleEditButton(Patient patient) {
         Dialog<Patient> dialog = new Dialog<>();

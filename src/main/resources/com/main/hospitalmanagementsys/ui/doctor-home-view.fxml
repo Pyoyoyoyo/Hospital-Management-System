@@ -346,7 +346,7 @@
                               <Button fx:id="addpatientbutton" layoutX="1004.0" layoutY="12.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10;" text="+ Шинэ өвчтөн" textFill="WHITE" />
                            </children>
                         </AnchorPane>
-                        <TextField fx:id="searchFieldOnPatient" layoutX="55.0" layoutY="72.0" promptText="Search  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+                        <TextField fx:id="searchFieldOnPatient" layoutX="55.0" layoutY="72.0" promptText="  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
                         <HBox alignment="CENTER" layoutX="835.0" layoutY="559.0" prefHeight="35.0" prefWidth="329.0" spacing="10.0">
                            <children>
                               <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="69.0" style="-fx-background-radius: 10; -fx-background-color: #ffffff;" text="Өмнөх" />
@@ -360,7 +360,7 @@
                         <TableView fx:id="patientTableView" layoutX="55.0" layoutY="119.0" prefHeight="416.0" prefWidth="1110.0">
                            <columns>
                               <TableColumn fx:id="nameColumn" prefWidth="147.20001220703125" text="Өвчтний нэр" />
-                              <TableColumn fx:id="medicalHistoryColumn" minWidth="0.0" prefWidth="98.4000244140625" text="Өвчтний түүх" />
+                              <TableColumn fx:id="medicalHistoryColumn" minWidth="0.0" prefWidth="98.4000244140625" text="Өвчтөний түүх" />
                               <TableColumn fx:id="insuranceInfoColumn" minWidth="4.0" prefWidth="153.60003662109375" text="Даатгалын мэдээлэл" />
                               <TableColumn fx:id="registrationNumberColumn" prefWidth="137.5999755859375" text="Регистрийн дугаар" />
                               <TableColumn fx:id="contactNumberColumn" prefWidth="141.60003662109375" text="Холбоо барих" />
