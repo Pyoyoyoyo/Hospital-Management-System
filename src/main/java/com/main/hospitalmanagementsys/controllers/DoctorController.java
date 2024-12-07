@@ -27,14 +27,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DoctorController {
-
     @FXML
     private Button homeButton;
-
     @FXML
     private Button clientsButton;
     @FXML
     private Button appointmentsButton;
+    @FXML
+    private Button paymentButton;
     @FXML
     private Button logoutButton;
     @FXML
@@ -45,6 +45,9 @@ public class DoctorController {
 
     @FXML
     private Button addappointmentbutton;
+
+    @FXML
+    private AnchorPane paymentpage;
 
     @FXML
     private AnchorPane appointmentpage;
@@ -120,8 +123,6 @@ public class DoctorController {
     private TextField searchFieldOnPatient;
     @FXML
     public TextField searchFieldOnAppointment;
-    @FXML
-    public  TextField searchFieldByDateOnAppointment;
 
     @FXML
     private Button newAppointmentsButton;
@@ -150,6 +151,18 @@ public class DoctorController {
     private TableColumn<AppointmentRecord, Void> appointmentEditColumn;
     @FXML
     private FilteredList<AppointmentRecord> filteredAppointmentList;
+
+    @FXML
+    private TableView<PatientPayment> paymentTableView;
+    @FXML
+    private TableColumn<PatientPayment, String> paymentPatientNameColumn;
+    @FXML
+    private TableColumn<PatientPayment, String> paymentClaimColumn;
+    @FXML
+    private TableColumn<PatientPayment, String> paymentStatusColumn;
+    private ObservableList<PatientPayment> paymentList;
+
+
 
     /**
      * @description Initiliaze buyu Programm ehelhed database-ees Utga olgoh, uridchilan beldeh function.
@@ -238,6 +251,11 @@ public class DoctorController {
         appointmentsButton.setOnAction(event -> {
             onButtonClick(appointmentsButton);
             navigateToAppointments();
+        });
+
+        paymentButton.setOnAction(event -> {
+            onButtonClick(paymentButton);
+            navigateToPayments();
         });
 
         logoutButton.setOnAction(event -> {
@@ -342,7 +360,29 @@ public class DoctorController {
                 }
             }
         });
+        paymentPatientNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatientName()));
+        paymentStatusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentStatus()));
+        paymentClaimColumn.setCellFactory(param -> new TableCell<PatientPayment, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
 
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Button claimButton = new Button("Төлбөр Нэхэмжлэх");
+                    claimButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
+
+                    claimButton.setOnAction(event -> {
+                        PatientPayment patient = getTableView().getItems().get(getIndex());
+                        claimPayment(patient);
+                    });
+
+                    setGraphic(claimButton);
+                }
+            }
+        });
+        loadPaymentData();
     }
     /**
      * @description Module buriin hoorond shiljih uyd style-nii change oruulah zorilgotoi function.
@@ -401,6 +441,7 @@ public class DoctorController {
         resetButtonStyle(homeButton);
         resetButtonStyle(clientsButton);
         resetButtonStyle(appointmentsButton);
+        resetButtonStyle(paymentButton);
         resetButtonStyle(logoutButton);
     }
     /**
@@ -446,6 +487,7 @@ public class DoctorController {
             patientsinfopage.setVisible(false);
             homepage.setVisible(true);
             appointmentpage.setVisible(false);
+            paymentpage.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -465,6 +507,7 @@ public class DoctorController {
             patientsinfopage.setVisible(true);
             homepage.setVisible(false);
             appointmentpage.setVisible(false);
+            paymentpage.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -481,6 +524,24 @@ public class DoctorController {
             patientsinfopage.setVisible(false);
             homepage.setVisible(false);
             appointmentpage.setVisible(true);
+            paymentpage.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @description Module buriin hoorond shiljih zorilgotoi route function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
+    private void navigateToPayments() {
+        try {
+            patientsinfopage.setVisible(false);
+            homepage.setVisible(false);
+            appointmentpage.setVisible(false);
+            paymentpage.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -988,6 +1049,12 @@ public class DoctorController {
                 showErrorDialog("Deletion failed", "There was an error while deleting the appointment.");
             }
         }
+    }
+    private void loadPaymentData() {
+        paymentList = FXCollections.observableArrayList(
+                DatabaseConnector.getPatientPaymentsFromDatabase()
+        );
+        paymentTableView.setItems(paymentList);
     }
     /**
      * @description Functiond aldaa garah uyd hereglegchid medegdeh zorilgotoi dialog haruulah function.
