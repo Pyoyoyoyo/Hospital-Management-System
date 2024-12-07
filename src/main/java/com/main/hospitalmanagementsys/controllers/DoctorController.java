@@ -136,7 +136,7 @@ public class DoctorController {
     @FXML
     private TableColumn<AppointmentRecord, String> appointmentDoctorNameColumn;
     @FXML
-    private TableColumn<AppointmentRecord, String> appointmentPaymentStateColumn;
+    private TableColumn<AppointmentRecord, String> appointmentStatusColumn;
     @FXML
     private TableColumn<AppointmentRecord, Void> appointmentEditColumn;
     @FXML
@@ -275,6 +275,7 @@ public class DoctorController {
             String doctorName = DatabaseConnector.getDoctorNameById(doctorId);
             return new SimpleStringProperty(doctorName);
         });
+        appointmentStatusColumn.setCellValueFactory((cellData -> new SimpleStringProperty(cellData.getValue().getStatus())));
 
         loadAppointmentRecordData();
         searchAppointment();
@@ -291,7 +292,6 @@ public class DoctorController {
                     }
                 });
 
-                // Action for the "Устгах" button
                 deleteButton.setOnAction(event -> {
                     AppointmentRecord appointment = getTableRow().getItem();
                     if (appointment != null) {

@@ -469,7 +469,7 @@
                                     <TableColumn fx:id="appointmentDateColumn" prefWidth="157.0" text="Он сар" />
                                     <TableColumn fx:id="appointmentPatientNameColumn" prefWidth="296.0" text="Өвчтөний нэр" />
                                     <TableColumn fx:id="appointmentDoctorNameColumn" prefWidth="160.0" text="Эмч" />
-                                    <TableColumn fx:id="appointmentPaymentStateColumn" prefWidth="177.60015869140625" text="Төлбөрийн төлөв" />
+                                    <TableColumn fx:id="appointmentStatusColumn" prefWidth="177.60015869140625" text="Төлөв" />
                                     <TableColumn fx:id="appointmentEditColumn" prefWidth="199.9998779296875" text="Засварлах" />
                                  </columns>
                               </TableView>

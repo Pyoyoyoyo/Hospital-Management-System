@@ -107,18 +107,4 @@ public class AppointmentRecord {
     public void setDoctorName(String doctorName) {
         this.doctorName = doctorName;
     }
-
-    // toString method for debugging
-    @Override
-    public String toString() {
-        return "AppointmentRecord{" +
-                "id=" + id +
-                ", appointmentCode=" + appointmentCode +
-                ", date=" + date +
-                ", time='" + time + '\'' +
-                ", status='" + status + '\'' +
-                ", doctorId=" + doctorId +
-                ", patientId=" + patientId +
-                '}';
-    }
 }
