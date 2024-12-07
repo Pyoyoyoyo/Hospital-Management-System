@@ -13,11 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 public class DatabaseConnector {
-
+    /* data base configuration */
     private static final String URL = "jdbc:postgresql://localhost:5432/HospitalManagement"; //db name
     private static final String USER = "postgres";  //username
     private static final String PASSWORD = "91209913";  //password
-
+    /**
+     * @description Database iin holboltiig guitsetgeh bolon database iin statusiig iltgeh zorilgotoi funtion.
+     *
+     * @return Connection
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static Connection connect() {
         Connection connection = null;
         try {
@@ -40,7 +46,13 @@ public class DatabaseConnector {
         }
         return connection;
     }
-
+    /**
+     * @description Idevhtei buyu status n active baih uyiin uulzaltiin medeelliig database-ees ugugdul awchrah function.
+     *
+     * @return int
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static int getActiveAppointmentsCountByDateRange(String selectedValue) {
         String query = "SELECT COUNT(*) FROM appointment_record WHERE status = 'active' AND date >= ?";
         LocalDate currentDate = LocalDate.now();
@@ -73,7 +85,14 @@ public class DatabaseConnector {
         }
         return count;
     }
-
+    /**
+     * @description Shine uulzaltiin tsag buyu timerange
+     * n 1 odriin dotor baih uulzaltiig database-ees shuuj awah function.
+     *
+     * @return int
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static int getNewAppointmentsCountByOneDayRange() {
         LocalDate currentDate = LocalDate.now();
         String query = "SELECT COUNT(*) FROM appointment_record WHERE status = 'active' AND date::date = ?";
@@ -91,7 +110,13 @@ public class DatabaseConnector {
         }
         return count;
     }
-
+    /**
+     * @description status n active baih uulzaltuudiin ugugdliig database-ees awah function.
+     *
+     * @return List<Appointment></>
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static List<Appointment> getActiveAppointments() {
         List<Appointment> appointments = new ArrayList<>();
         String query = "SELECT ar.time, ar.date, p1.name AS patient_name, p2.name AS doctor_name " +
@@ -120,7 +145,13 @@ public class DatabaseConnector {
         }
         return appointments;
     }
-
+    /**
+     * @description Database-ees statusiin utgaar shuult hiij uulzaltuudiin medeelel awah function.
+     *
+     * @return List<AppointmentRecord>
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static List<AppointmentRecord> getAppointmentRecordsByStatus(String status) {
         List<AppointmentRecord> appointmentRecords = new ArrayList<>();
         String query = "SELECT ar.appointment_code, ar.time, ar.date, ar.patient_id, ar.doctor_id, ar.status, " +
@@ -180,7 +211,13 @@ public class DatabaseConnector {
         return appointmentRecords;
     }
 
-
+    /**
+     * @description Tulburiin medeelliig timerange teigeer filterden awah function.
+     *
+     * @return Map<String, Integer>
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static Map<String, Integer> getPaymentStatusCounts(String selectedValue) {
         String query = "SELECT status, COUNT(*) FROM payment WHERE status IN ('Paid', 'Unpaid', 'Overdue') AND date >= ? GROUP BY status";
         LocalDate currentDate = LocalDate.now();
@@ -221,7 +258,13 @@ public class DatabaseConnector {
         return statusCounts;
     }
 
-
+    /**
+     * @description Hereglegchiin tulburiin medeelliig database-ees awah uildel guitsetgeh function.
+     *
+     * @return List<PatientPayment>
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static List<PatientPayment> getPatientPaymentsFromDatabase() {
         List<PatientPayment> payments = new ArrayList<>();
 
@@ -246,7 +289,13 @@ public class DatabaseConnector {
 
         return payments;
     }
-
+    /**
+     * @description Database-ees buh hereglegchiin medeelliig list-eer awah function.
+     *
+     * @return List<Patient>
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static List<Patient> getAllPatients() {
         List<Patient> patients = new ArrayList<>();
         String query = "SELECT p.name, p.contact_number, p.address, p.email, pt.medical_history, pt.insurance_information, p.registration_number " +
@@ -276,7 +325,13 @@ public class DatabaseConnector {
         }
         return patients;
     }
-
+    /**
+     * @description Database-d shine hereglegch nemeh insertion query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean addNewPatient(Patient patient) {
         String insertPersonQuery = "INSERT INTO person (name, contact_number, address, email, registration_number) VALUES (?, ?, ?, ?, ?)";
         String insertPatientQuery = "INSERT INTO patient (medical_history, insurance_information, person_id) VALUES (?, ?, ?)";
@@ -319,7 +374,13 @@ public class DatabaseConnector {
         }
         return false;
     }
-
+    /**
+     * @description Database-d hereglegchiin medeelel shinechleh Update query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean updatePatient(Patient patient) {
         String updatePersonQuery = "UPDATE person SET name = ?, contact_number = ?, address = ?, email = ? WHERE registration_number = ?";
         String updatePatientQuery = "UPDATE patient SET medical_history = ?, insurance_information = ? WHERE person_id = ?";
@@ -362,6 +423,13 @@ public class DatabaseConnector {
 
         return false;
     }
+    /**
+     * @description Database-d hereglegch ustgah delete query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean deletePatient(Patient patient) {
         String deletePatientQuery = "DELETE FROM patient WHERE person_id = (SELECT id FROM person WHERE registration_number = ?)";
         String deletePersonQuery = "DELETE FROM person WHERE registration_number = ?";
@@ -384,7 +452,13 @@ public class DatabaseConnector {
 
         return false;
     }
-
+    /**
+     * @description Uulzaltiin code shineer uusgeh function.
+     *
+     * @return int
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static int generateAppointmentCode() {
         String query = "SELECT MAX(appointment_code) AS max_code FROM appointment_record";
         try (Connection conn = connect();
@@ -400,7 +474,13 @@ public class DatabaseConnector {
         }
         return 1000;
     }
-
+    /**
+     * @description Database-ees doctoriin idg doctoriin nernees hargalzuulan awah function.
+     *
+     * @return int
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static int getDoctorIdByName(String doctorName) {
         String query = "SELECT d.id FROM doctor d JOIN person p ON d.person_id = p.id WHERE p.name = ?";
         try (Connection conn = connect();
@@ -416,7 +496,13 @@ public class DatabaseConnector {
         }
         throw new IllegalArgumentException("Doctor not found: " + doctorName);
     }
-
+    /**
+     * @description Database-d hereglegchiin id-g  nereer hargalzuulan awah function.
+     *
+     * @return int
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static int getPatientIdByName(String patientName) {
         String query = "SELECT p.id FROM patient p JOIN person pe ON p.person_id = pe.id WHERE pe.name = ?";
         try (Connection conn = connect();
@@ -432,7 +518,14 @@ public class DatabaseConnector {
         }
         throw new IllegalArgumentException("Patient not found: " + patientName);
     }
-
+    /**
+     * @description Database-ees hereglegchiin neriig hereglegchiin
+     * ID tai hargalzuulan awah function.
+     *
+     * @return String
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static String getPatientNameById(int patientId) {
         String query = "SELECT p1.name " +
                 "FROM person p1 " +
@@ -453,7 +546,13 @@ public class DatabaseConnector {
         }
         return null;
     }
-
+    /**
+     * @description .
+     *
+     * @return String
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static String getDoctorNameById(int doctorId) {
         String query = "SELECT p2.name " +
                 "FROM person p2 " +
@@ -475,7 +574,13 @@ public class DatabaseConnector {
         return null;
     }
 
-
+    /**
+     * @description Database-d uulzalt nemeh buyu insertion query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean addNewAppointment(AppointmentRecord appointment) {
         String query = "INSERT INTO appointment_record (appointment_code, date, time, status, doctor_id, patient_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
@@ -496,7 +601,13 @@ public class DatabaseConnector {
         }
         return false;
     }
-
+    /**
+     * @description Database-d uulzalt zasah, shinechleh buyu update query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean updateAppointment(AppointmentRecord appointment) {
         String updateAppointmentQuery = "UPDATE appointment_record SET date = ?, time = ?, status = ? WHERE appointment_code = ?";
 
@@ -515,7 +626,13 @@ public class DatabaseConnector {
         }
         return false;
     }
-
+    /**
+     * @description Database-d uulzalt ustgah buyu delete query guitsetgeh function.
+     *
+     * @return boolean
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     public static boolean deleteAppointment(AppointmentRecord appointment) {
         String deleteAppointmentQuery = "DELETE FROM appointment_record WHERE appointment_code = ?";
 
@@ -530,11 +647,5 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        Connection conn = connect();
-        if (conn != null) {
-        }
     }
 }

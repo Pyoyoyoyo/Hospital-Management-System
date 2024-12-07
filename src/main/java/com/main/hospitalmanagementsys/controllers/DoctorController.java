@@ -151,7 +151,13 @@ public class DoctorController {
     @FXML
     private FilteredList<AppointmentRecord> filteredAppointmentList;
 
-
+    /**
+     * @description Initiliaze buyu Programm ehelhed database-ees Utga olgoh, uridchilan beldeh function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     @FXML
     public void initialize() {
         timePeriodComboBox.getItems().addAll("7 хоногоор", "14 хоногоор", "1 сараар");
@@ -335,44 +341,103 @@ public class DoctorController {
         });
 
     }
-
+    /**
+     * @description Module buriin hoorond shiljih uyd style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void resetButtonStylesOnAppointments() {
         resetButtonStyleOnAppointments(newAppointmentsButton);
         resetButtonStyleOnAppointments(completedAppointmentsButton);
     }
 
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void resetButtonStyleOnAppointments(Button button) {
         button.setStyle("-fx-background-color: transparent; -fx-text-fill: GREY; -fx-border-width: 0 0 2 0; -fx-font-size: 14;");
     }
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void setButtonSelectedOnAppointments(Button button) {
         button.setStyle("-fx-background-color: rgba(76, 175, 80, 0.1); -fx-text-fill: #4CAF50; -fx-border-width: 0 0 2 0; -fx-font-size: 14;");
     }
 
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void onButtonClickOnAppointments(Button clickedButton) {
         resetButtonStylesOnAppointments();
 
         setButtonSelectedOnAppointments(clickedButton);
     }
 
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void resetButtonStyles() {
         resetButtonStyle(homeButton);
         resetButtonStyle(clientsButton);
         resetButtonStyle(appointmentsButton);
         resetButtonStyle(logoutButton);
     }
-
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void resetButtonStyle(Button button) {
         button.setStyle("-fx-background-color: transparent; -fx-text-fill: #7f8f98;");
     }
-
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void setButtonSelected(Button button) {
         button.setStyle("-fx-background-color: rgba(76, 175, 80, 0.1); -fx-text-fill: #4caf50;");
     }
-
+    /**
+     * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void onButtonClick(Button clickedButton) {
         resetButtonStyles();
         setButtonSelected(clickedButton);
     }
+    /**
+     * @description Module buriin hoorond shiljih zorilgotoi route function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void navigateToHome() {
         try {
             patientsinfopage.setVisible(false);
@@ -382,6 +447,13 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+    /**
+     * @description Module buriin hoorond shiljih zorilgotoi route function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     @FXML
     private void navigateToClients() {
         System.out.println("Navigating to Clients");
@@ -394,7 +466,13 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * @description Module buriin hoorond shiljih zorilgotoi route function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void navigateToAppointments() {
         try {
             patientsinfopage.setVisible(false);
@@ -404,7 +482,13 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * @description Piechart buyu statistic uzuuleltiin Data-g tohiruulah hiigeed database-ees ugugduliig awah,tohiruulah zorilgotoi.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void updatePieChart() {
         String selectedRange = timeRangeComboBox.getSelectionModel().getSelectedItem();
 
@@ -418,7 +502,13 @@ public class DoctorController {
         pieChart.getData().clear();
         pieChart.getData().addAll(paidSlice, unpaidSlice, overdue);
     }
-
+    /**
+     * @description Husnegten medeeleliin utgiig database-ees beltgeh tuund haruulahaar tohiruulah function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void populateTable() {
         List<PatientPayment> patientPayments = DatabaseConnector.getPatientPaymentsFromDatabase();
 
@@ -426,7 +516,14 @@ public class DoctorController {
         tableView.setItems(data);
     }
 
-
+    /**
+     * @description Hereglegchiin husnegtees tuhain hereglegchees nehemjlel uusgeh nehemjleliin medeelliig
+     * haruulah zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void claimPayment(PatientPayment patient) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Нэхэмжлэл Илгээх");
@@ -435,7 +532,13 @@ public class DoctorController {
 
         alert.showAndWait();
     }
-
+    /**
+     * @description Hereglegchiin husnegtees hereglegch buyu uwchtung nereer haih,hailt hiih zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void searchPatient() {
         FilteredList<Patient> filteredList = new FilteredList<>(patientList, p -> true);
 
@@ -459,7 +562,14 @@ public class DoctorController {
 
         patientTableView.setItems(filteredList);
     }
-
+    /**
+     * @description Uulzalt haruulah husnegtees hereglegch
+     * buyu uulzaltiig nereer haih,hailt hiih zorilgotoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void searchAppointment() {
         filteredAppointmentList = new FilteredList<>(appointmentRecordsList, appointment -> true);
 
@@ -486,7 +596,13 @@ public class DoctorController {
 
         AppointmentRecordsTableView.setItems(filteredAppointmentList);
     }
-
+    /**
+     * @description Uulzaltiin medeelliig tuunii on saraar haih hailt hiih zorilgotoi function
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void searchAppointmentByDate() {
         filteredAppointmentList = new FilteredList<>(appointmentRecordsList, appointment -> true);
 
@@ -510,20 +626,41 @@ public class DoctorController {
             AppointmentRecordsTableView.setItems(filteredAppointmentList);
         });
     }
-
+    /**
+     * @description Database-ees hereglegchiin medeelliig
+     * observable list-eer table-d ugsrah load hiih zorilgotoi function
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void loadPatientData() {
         patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPatientNameProperty());
         patientTableView.setItems(patientList);
     }
-
+    /**
+     * @description Shine uulzalt bolon duussan uulzalt button
+     * deer hereglegchiin medeelliig husnegtend songoson hesgeer haruulah zorilgtoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     @FXML
     private void handleNewAppointments() {
         List<AppointmentRecord> records = DatabaseConnector.getAppointmentRecordsByStatus("active");
         appointmentRecordsList.setAll(records);
         AppointmentRecordsTableView.setItems(appointmentRecordsList);
     }
-
+    /**
+     * @description Shine uulzalt bolon duussan uulzalt button
+     * deer hereglegchiin medeelliig husnegtend songoson hesgeer haruulah zorilgtoi function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     @FXML
     private void handleCompletedAppointments() {
         List<AppointmentRecord> inactiveRecords = DatabaseConnector.getAppointmentRecordsByStatus("inactive");
@@ -531,7 +668,13 @@ public class DoctorController {
         AppointmentRecordsTableView.setItems(appointmentRecordsList);
     }
 
-
+    /**
+     * @description Husnegten medeelel deeres zaswar oruulah uyd hereglegchiin prompt asuuh update function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleEditButton(Patient patient) {
         Dialog<Patient> dialog = new Dialog<>();
         dialog.setTitle("Өвчтний мэдээлэл засварлах");
@@ -587,7 +730,13 @@ public class DoctorController {
             }
         });
     }
-
+    /**
+     * @description Husnegten medeelel deeres zaswar oruulah uyd hereglegchiin prompt asuuh insertion function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleAddPatientButton() {
         Dialog<Patient> dialog = new Dialog<>();
         dialog.setTitle("Шинэ өвчтөн нэмэх");
@@ -662,7 +811,13 @@ public class DoctorController {
         });
     }
 
-
+    /**
+     * @description Husnegten medeelel deeres hereglegch, uulzaltiig ustgah uyd hereglegchiin prompt asuuh delete function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleDeleteButton(Patient patient) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Бататгах");
@@ -678,7 +833,14 @@ public class DoctorController {
             }
         }
     }
-
+    /**
+     * @description Husnegten medeelel deeres uulzaltiig zaswarlah
+     * uyd hereglegchiin prompt asuuh insertion function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleAddAppointmentButton() {
         Dialog<AppointmentRecord> dialog = new Dialog<>();
         dialog.setTitle("Шинэ уулзалт нэмэх");
@@ -748,7 +910,14 @@ public class DoctorController {
     }
 
 
-
+    /**
+     * @description Husnegten medeelel deeres uulzaltiig zasah
+     * uyd hereglegchiin prompt asuuh update function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleEditAppointmentButton(AppointmentRecord appointment) {
         Dialog<AppointmentRecord> dialog = new Dialog<>();
         dialog.setTitle("Уулзалтыг өөрчлөх");
@@ -794,7 +963,13 @@ public class DoctorController {
             }
         });
     }
-
+    /**
+     * @description Husnegten medeelel deeres uulzaltiig ustgah uyd hereglegchiin prompt asuuh delete function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void handleDeleteAppointmentButton(AppointmentRecord appointment) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Уулзалтыг цуцлах");
@@ -811,7 +986,12 @@ public class DoctorController {
             }
         }
     }
-
+    /**
+     * @description Functiond aldaa garah uyd hereglegchid medegdeh zorilgotoi dialog haruulah function.
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -820,7 +1000,13 @@ public class DoctorController {
         alert.showAndWait();
     }
 
-
+    /**
+     * @description Garah towch buyu systemees garah uildliin function.
+     *
+     * @return void
+     *
+     * @author Tsagaadai, Sodbileg
+     */
     private void logout() {
         try {
             Stage currentStage = (Stage) logoutButton.getScene().getWindow();
