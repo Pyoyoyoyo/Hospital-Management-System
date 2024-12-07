@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -122,6 +123,12 @@ public class DoctorController {
     public TextField searchFieldOnAppointment;
     @FXML
     public  TextField searchFieldByDateOnAppointment;
+
+    @FXML
+    private Button newAppointmentsButton;
+
+    @FXML
+    private Button completedAppointmentsButton;
     private ObservableList<Patient> patientList;
     private ObservableList<AppointmentRecord> appointmentRecordsList;
 
@@ -197,6 +204,11 @@ public class DoctorController {
         resetButtonStyles();
         setButtonSelected(homeButton);
 
+        resetButtonStylesOnAppointments();
+        setButtonSelectedOnAppointments(newAppointmentsButton);
+        newAppointmentsButton.setOnAction(e -> onButtonClickOnAppointments(newAppointmentsButton));
+        completedAppointmentsButton.setOnAction(e -> onButtonClickOnAppointments(completedAppointmentsButton));
+
         homeButton.setOnAction(event -> {
             onButtonClick(homeButton);
             navigateToHome();
@@ -254,6 +266,7 @@ public class DoctorController {
                     setGraphic(buttonBox);
                 }
             }
+
         });
 
         addpatientbutton.setOnAction(event -> handleAddPatientButton());
@@ -311,8 +324,26 @@ public class DoctorController {
                 }
             }
         });
+
     }
 
+    private void resetButtonStylesOnAppointments() {
+        resetButtonStyleOnAppointments(newAppointmentsButton);
+        resetButtonStyleOnAppointments(completedAppointmentsButton);
+    }
+
+    private void resetButtonStyleOnAppointments(Button button) {
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: GREY; -fx-border-width: 0 0 2 0; -fx-font-size: 14;");
+    }
+    private void setButtonSelectedOnAppointments(Button button) {
+        button.setStyle("-fx-background-color: rgba(76, 175, 80, 0.1); -fx-text-fill: #4CAF50; -fx-border-width: 0 0 2 0; -fx-font-size: 14;");
+    }
+
+    private void onButtonClickOnAppointments(Button clickedButton) {
+        resetButtonStylesOnAppointments();
+
+        setButtonSelectedOnAppointments(clickedButton);
+    }
 
     private void resetButtonStyles() {
         resetButtonStyle(homeButton);

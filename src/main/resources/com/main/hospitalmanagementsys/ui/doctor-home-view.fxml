@@ -484,16 +484,10 @@
                               </HBox>
                               <AnchorPane prefHeight="54.0" prefWidth="1140.0" style="-fx-border-color: transparent transparent #4CAF50 transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #999999;">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="35.0" prefWidth="173.0" style="-fx-border-color: #4CAF50; -fx-border-width: 0 0 2 0;" text="ШИНЭ УУЛЗАЛТУУД" textFill="#4caf50">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="253.0" layoutY="18.0" prefHeight="35.0" prefWidth="200.0" text="ДУУССАН УУЛЗАЛТУУД" textFill="GREY">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Button fx:id="newAppointmentsButton" alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="35.0" prefWidth="173.0"
+                                            text="ШИНЭ УУЛЗАЛТУУД" style=" -fx-border-width: 0 0 2 0; -fx-text-fill: #4CAF50; -fx-font-size: 14;" />
+                                    <Button fx:id="completedAppointmentsButton" alignment="CENTER" layoutX="253.0" layoutY="18.0" prefHeight="35.0" prefWidth="200.0"
+                                            text="ДУУССАН УУЛЗАЛТУУД" style="-fx-border-width: 0 0 2 0; -fx-text-fill: GREY; -fx-font-size: 14;" />
                                     <Button fx:id="addappointmentbutton" layoutX="994.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10;" text="+ Шинэ уулзалт" textFill="WHITE" />
                                  </children>
                               </AnchorPane>
