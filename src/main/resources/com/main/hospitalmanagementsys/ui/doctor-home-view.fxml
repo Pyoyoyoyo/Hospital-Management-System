@@ -52,7 +52,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="homepage" layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="homepage" layoutX="160.0" layoutY="100.0" prefHeight="533.0" prefWidth="622.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="412.0" style="-fx-background-color: transparent;" visible="false">
                <children>
@@ -371,7 +371,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="appointmentpage" layoutX="200.0" prefHeight="769.0" prefWidth="1300.0" style="-fx-background-color: #E9F1E8;" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="appointmentpage" layoutX="200.0" prefHeight="769.0" prefWidth="1300.0" style="-fx-background-color: #E9F1E8;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane layoutX="40.0" layoutY="100.0" prefHeight="769.0" prefWidth="1300.0" style="-fx-background-color: #E9F1E8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -460,9 +460,9 @@
                         </HBox>
                         <AnchorPane layoutX="14.0" layoutY="89.0" prefHeight="622.0" prefWidth="1190.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;">
                            <children>
-                              <TextField layoutX="49.0" layoutY="70.0" promptText="  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-                              <TextField layoutX="226.0" layoutY="69.0" promptText="Огноогоор шүүх" style="-fx-border-color: #4CAF50; -fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-radius: 10;" />
-                              <TableView fx:id="DetailedAppointmentsTableView" layoutX="49.0" layoutY="118.0" prefHeight="398.0" prefWidth="1090.0" >
+                              <TextField layoutX="49.0" layoutY="70.0" promptText="  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" fx:id="searchFieldOnAppointment"/>
+                              <TextField layoutX="226.0" layoutY="69.0" promptText="Огноогоор шүүх" style="-fx-border-color: #4CAF50; -fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-radius: 10;" fx:id="searchFieldByDateOnAppointment"/>
+                              <TableView fx:id="AppointmentRecordsTableView" layoutX="49.0" layoutY="118.0" prefHeight="398.0" prefWidth="1090.0" >
                                  <columns>
                                     <TableColumn fx:id="appointmentTimeColumn" prefWidth="98.0" text="Цаг" />
                                     <TableColumn fx:id="appointmentDateColumn" prefWidth="157.0" text="Он сар" />
@@ -494,7 +494,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Button layoutX="994.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10;" text="+ Шинэ уулзалт" textFill="WHITE" />
+                                    <Button fx:id="addappointmentbutton" layoutX="994.0" layoutY="9.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10;" text="+ Шинэ уулзалт" textFill="WHITE" />
                                  </children>
                               </AnchorPane>
                            </children>

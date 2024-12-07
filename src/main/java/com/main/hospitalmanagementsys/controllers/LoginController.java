@@ -53,6 +53,18 @@ public class LoginController {
 
     @FXML
     private void handleForgotPassword(ActionEvent event) {
-        System.out.println("Forgot password.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/forgot-password-view.fxml"));
+            AnchorPane forgotPasswordView = loader.load();
+
+            Scene forgotPasswordScene = new Scene(forgotPasswordView);
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(forgotPasswordScene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,9 +1,6 @@
 package com.main.hospitalmanagementsys.database;
 
-import com.main.hospitalmanagementsys.model.Appointment;
-import com.main.hospitalmanagementsys.model.DetailedAppointment;
-import com.main.hospitalmanagementsys.model.Patient;
-import com.main.hospitalmanagementsys.model.PatientPayment;
+import com.main.hospitalmanagementsys.model.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -124,16 +121,15 @@ public class DatabaseConnector {
         return appointments;
     }
 
-    public static List<DetailedAppointment> getDetailedAppointments() {
-        List<DetailedAppointment> appointments = new ArrayList<>();
-        String query = "SELECT ar.time, ar.date, p1.name AS patient_name, " +
-                "p2.name AS doctor_name, pay.status AS payment_status " +
+    public static List<AppointmentRecord> getAppointmentRecords() {
+        List<AppointmentRecord> appointmentRecords = new ArrayList<>();
+        String query = "SELECT ar.appointment_code, ar.time, ar.date, ar.patient_id, ar.doctor_id, ar.status, " +
+                "p1.name AS patient_name, p2.name AS doctor_name " +
                 "FROM appointment_record ar " +
                 "JOIN patient p ON ar.patient_id = p.id " +
                 "JOIN doctor d ON ar.doctor_id = d.id " +
                 "JOIN person p1 ON p.person_id = p1.id " +
                 "JOIN person p2 ON d.person_id = p2.id " +
-                "JOIN payment pay ON ar.patient_id = pay.patient_id " +
                 "WHERE ar.status = 'active'";
 
         try (Connection conn = connect();
@@ -141,6 +137,7 @@ public class DatabaseConnector {
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
+                int appointmentCode = rs.getInt("appointment_code");
                 String time = rs.getString("time");
                 LocalDate date = null;
 
@@ -150,14 +147,23 @@ public class DatabaseConnector {
                     System.out.println("Error converting date: " + e.getMessage());
                 }
 
+                int patientId = rs.getInt("patient_id");
+                int doctorId = rs.getInt("doctor_id");
+                String status = rs.getString("status");
+
+                // Fetch patient name and doctor name
                 String patientName = rs.getString("patient_name");
                 String doctorName = rs.getString("doctor_name");
-                String paymentStatus = rs.getString("payment_status");
 
-                if (patientName != null && doctorName != null && paymentStatus != null) {
-                    DetailedAppointment appointment = new DetailedAppointment(time, date, patientName,
-                            doctorName, paymentStatus);
-                    appointments.add(appointment);
+                if (patientName != null && doctorName != null && status != null) {
+                    // Create the AppointmentRecord with the fetched names
+                    AppointmentRecord appointmentRecord = new AppointmentRecord(
+                            0, appointmentCode, date, time, status, doctorId, patientId);
+
+                    appointmentRecord.setPatientName(patientName);
+                    appointmentRecord.setDoctorName(doctorName);
+
+                    appointmentRecords.add(appointmentRecord);
                 } else {
                     System.out.println("Skipping appointment due to missing data.");
                 }
@@ -166,7 +172,7 @@ public class DatabaseConnector {
             System.out.println("SQL error: " + e.getMessage());
             e.printStackTrace();
         }
-        return appointments;
+        return appointmentRecords;
     }
 
     public static Map<String, Integer> getPaymentStatusCounts(String selectedValue) {
@@ -358,11 +364,9 @@ public class DatabaseConnector {
              PreparedStatement deletePatientStmt = conn.prepareStatement(deletePatientQuery);
              PreparedStatement deletePersonStmt = conn.prepareStatement(deletePersonQuery)) {
 
-            // First, delete the patient details from the patient table
             deletePatientStmt.setString(1, patient.getRegistrationNumber());
             int patientRowsAffected = deletePatientStmt.executeUpdate();
 
-            // Then, delete the person record from the person table
             deletePersonStmt.setString(1, patient.getRegistrationNumber());
             int personRowsAffected = deletePersonStmt.executeUpdate();
 
@@ -375,6 +379,152 @@ public class DatabaseConnector {
         return false;
     }
 
+    public static int generateAppointmentCode() {
+        String query = "SELECT MAX(appointment_code) AS max_code FROM appointment_record";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int maxCode = rs.getInt("max_code");
+                return maxCode + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1000;
+    }
+
+    public static int getDoctorIdByName(String doctorName) {
+        String query = "SELECT d.id FROM doctor d JOIN person p ON d.person_id = p.id WHERE p.name = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, doctorName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException("Doctor not found: " + doctorName);
+    }
+
+    public static int getPatientIdByName(String patientName) {
+        String query = "SELECT p.id FROM patient p JOIN person pe ON p.person_id = pe.id WHERE pe.name = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, patientName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException("Patient not found: " + patientName);
+    }
+
+    public static String getPatientNameById(int patientId) {
+        String query = "SELECT p1.name " +
+                "FROM person p1 " +
+                "JOIN patient p ON p1.id = p.person_id " +
+                "WHERE p.id = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, patientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error while fetching patient name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getDoctorNameById(int doctorId) {
+        String query = "SELECT p2.name " +
+                "FROM person p2 " +
+                "JOIN doctor d ON p2.id = d.person_id " +
+                "WHERE d.id = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, doctorId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error while fetching doctor name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static boolean addNewAppointment(AppointmentRecord appointment) {
+        String query = "INSERT INTO appointment_record (appointment_code, date, time, status, doctor_id, patient_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, appointment.getAppointmentCode());
+            stmt.setTimestamp(2, Timestamp.valueOf(appointment.getDate().atStartOfDay()));
+            stmt.setString(3, appointment.getTime());
+            stmt.setString(4, appointment.getStatus());
+            stmt.setInt(5, appointment.getDoctorId());
+            stmt.setInt(6, appointment.getPatientId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean updateAppointment(AppointmentRecord appointment) {
+        String updateAppointmentQuery = "UPDATE appointment_record SET date = ?, time = ?, status = ? WHERE appointment_code = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(updateAppointmentQuery)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(appointment.getDate().atStartOfDay())); // Assuming LocalDate for date
+            stmt.setString(2, appointment.getTime());
+            stmt.setString(3, appointment.getStatus());
+            stmt.setInt(4, appointment.getAppointmentCode()); // Added missing binding for appointment_code
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deleteAppointment(AppointmentRecord appointment) {
+        String deleteAppointmentQuery = "DELETE FROM appointment_record WHERE appointment_code = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(deleteAppointmentQuery)) {
+
+            stmt.setInt(1, appointment.getAppointmentCode()); // Added missing binding for appointment_code
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         Connection conn = connect();

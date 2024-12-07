@@ -1,10 +1,6 @@
 package com.main.hospitalmanagementsys.controllers;
 
-import com.main.hospitalmanagementsys.model.Appointment;
-import com.main.hospitalmanagementsys.model.DetailedAppointment;
-import com.main.hospitalmanagementsys.model.Patient;
-import com.main.hospitalmanagementsys.model.PatientPayment;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.main.hospitalmanagementsys.model.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,9 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.main.hospitalmanagementsys.database.DatabaseConnector.getDetailedAppointments;
-
-
 public class DoctorController {
 
     @FXML
@@ -49,6 +42,9 @@ public class DoctorController {
 
     @FXML
     private Button addpatientbutton;
+
+    @FXML
+    private Button addappointmentbutton;
 
     @FXML
     private AnchorPane appointmentpage;
@@ -122,23 +118,27 @@ public class DoctorController {
 
     @FXML
     private TextField searchFieldOnPatient;
-
+    @FXML
+    public TextField searchFieldOnAppointment;
+    @FXML
+    public  TextField searchFieldByDateOnAppointment;
     private ObservableList<Patient> patientList;
+    private ObservableList<AppointmentRecord> appointmentRecordsList;
 
     @FXML
-    private TableView<DetailedAppointment> DetailedAppointmentsTableView;
+    private TableView<AppointmentRecord> AppointmentRecordsTableView;
     @FXML
-    private TableColumn<DetailedAppointment, String> appointmentTimeColumn;
+    private TableColumn<AppointmentRecord, String> appointmentTimeColumn;
     @FXML
-    private TableColumn<DetailedAppointment, String> appointmentDateColumn;
+    private TableColumn<AppointmentRecord, String> appointmentDateColumn;
     @FXML
-    private TableColumn<DetailedAppointment, String> appointmentPatientNameColumn;
+    private TableColumn<AppointmentRecord, String> appointmentPatientNameColumn;
     @FXML
-    private TableColumn<DetailedAppointment, String> appointmentDoctorNameColumn;
+    private TableColumn<AppointmentRecord, String> appointmentDoctorNameColumn;
     @FXML
-    private TableColumn<DetailedAppointment, String> appointmentPaymentStateColumn;
+    private TableColumn<AppointmentRecord, String> appointmentPaymentStateColumn;
     @FXML
-    private TableColumn<DetailedAppointment, Void> appointmentEditColumn;
+    private TableColumn<AppointmentRecord, Void> appointmentEditColumn;
 
 
     @FXML
@@ -161,14 +161,16 @@ public class DoctorController {
         doctorNameColumn.setCellValueFactory(cellData -> cellData.getValue().doctorNameProperty());
 
         List<Appointment> appointments = DatabaseConnector.getActiveAppointments();
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
-        AppointmentsTableView.setItems(appointmentList);
 
         timeRangeComboBox.getSelectionModel().select("7 хоногоор");
         timeRangeComboBox.setOnAction(event -> updatePieChart());
         updatePieChart();
         patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
+        appointmentRecordsList = FXCollections.observableArrayList(DatabaseConnector.getAppointmentRecords());
+        AppointmentsTableView.setItems(appointmentList);
         patientTableView.setItems(patientList);
+        AppointmentRecordsTableView.setItems(appointmentRecordsList);
         patientNameColumnOnPayment.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         claimPaymentColumn.setCellFactory(param -> new TableCell<PatientPayment, String>() {
             @Override
@@ -255,22 +257,44 @@ public class DoctorController {
         });
 
         addpatientbutton.setOnAction(event -> handleAddPatientButton());
+        addappointmentbutton.setOnAction(event -> handleAddAppointmentButton());
         loadPatientData();
-        setupSearch();
+        searchPatient();
 
         appointmentTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
         appointmentDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
-        appointmentPatientNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatientName()));
-        appointmentDoctorNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDoctorName()));
-        appointmentPaymentStateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentStatus()));
-        appointmentEditColumn.setCellFactory(param -> new TableCell<DetailedAppointment, Void>() {
+        appointmentPatientNameColumn.setCellValueFactory(cellData -> {
+            int patientId = cellData.getValue().getPatientId();
+            String patientName = DatabaseConnector.getPatientNameById(patientId);
+            return new SimpleStringProperty(patientName);
+        });
+
+        appointmentDoctorNameColumn.setCellValueFactory(cellData -> {
+            int doctorId = cellData.getValue().getDoctorId();
+            String doctorName = DatabaseConnector.getDoctorNameById(doctorId);
+            return new SimpleStringProperty(doctorName);
+        });
+
+        loadAppointmentRecordData();
+        searchAppointment();
+        searchAppointmentByDate();
+        appointmentEditColumn.setCellFactory(param -> new TableCell<AppointmentRecord, Void>() {
             private final Button editButton = new Button("Засах");
+            private final Button deleteButton = new Button("Устгах");
 
             {
                 editButton.setOnAction(event -> {
-                    DetailedAppointment appointment = getTableRow().getItem();
+                    AppointmentRecord appointment = getTableRow().getItem();
                     if (appointment != null) {
-                        handleEditAppointment(appointment);
+                        handleEditAppointmentButton(appointment);
+                    }
+                });
+
+                // Action for the "Устгах" button
+                deleteButton.setOnAction(event -> {
+                    AppointmentRecord appointment = getTableRow().getItem();
+                    if (appointment != null) {
+                        handleDeleteAppointmentButton(appointment);
                     }
                 });
             }
@@ -281,18 +305,12 @@ public class DoctorController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(editButton);
+                    // Arrange the buttons side by side
+                    HBox buttonBox = new HBox(10, editButton, deleteButton);
+                    setGraphic(buttonBox);
                 }
             }
         });
-
-        List<DetailedAppointment> detailedAppointments = getDetailedAppointments();
-        ObservableList<DetailedAppointment> detailedAppointmentList = FXCollections.observableArrayList(detailedAppointments);
-        DetailedAppointmentsTableView.setItems(detailedAppointmentList);
-    }
-
-    private void handleEditAppointment(DetailedAppointment appointment) {
-        System.out.println("Editing appointment: " + appointment.getPatientName());
     }
 
 
@@ -378,7 +396,7 @@ public class DoctorController {
         alert.showAndWait();
     }
 
-    private void setupSearch() {
+    private void searchPatient() {
         FilteredList<Patient> filteredList = new FilteredList<>(patientList, p -> true);
 
         searchFieldOnPatient.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -393,7 +411,7 @@ public class DoctorController {
                 String patientName = patient.getPatientName().toLowerCase().trim();
 
                 boolean matches = patientName.contains(lowerCaseFilter);
-                System.out.println("Patient matches filter: " + matches);  // Debug line
+                System.out.println("Patient matches filter: " + matches);
 
                 return matches;
             });
@@ -402,15 +420,67 @@ public class DoctorController {
         patientTableView.setItems(filteredList);
     }
 
+    private void searchAppointment() {
+        FilteredList<AppointmentRecord> filteredList = new FilteredList<>(appointmentRecordsList, appointment -> true);
+
+        searchFieldOnAppointment.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Text entered: " + newValue);
+
+            filteredList.setPredicate(appointment -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase().trim();
+                String patientName = appointment.getPatientName().toLowerCase().trim();
+
+                boolean matches = patientName.contains(lowerCaseFilter);
+
+                System.out.println("Appointment matches filter: " + matches);
+
+                return matches;
+            });
+        });
+
+        AppointmentRecordsTableView.setItems(filteredList);
+    }
+
+    private void searchAppointmentByDate() {
+        FilteredList<AppointmentRecord> filteredList = new FilteredList<>(appointmentRecordsList, appointment -> true);
+
+        searchFieldByDateOnAppointment.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Text entered: " + newValue);
+
+            filteredList.setPredicate(appointment -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase().trim();
+                String appointmentDate = appointment.getDate().toString().toLowerCase().trim();
+
+                boolean matches = appointmentDate.contains(lowerCaseFilter);
+
+                System.out.println("Appointment matches filter: " + matches);
+
+                return matches;
+            });
+        });
+
+        AppointmentRecordsTableView.setItems(filteredList);
+    }
 
     private void loadPatientData() {
         patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
-
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPatientNameProperty());
-
         patientTableView.setItems(patientList);
     }
 
+    private void loadAppointmentRecordData() {
+        List<AppointmentRecord> records = DatabaseConnector.getAppointmentRecords();
+        appointmentRecordsList.setAll(records);
+        AppointmentRecordsTableView.setItems(appointmentRecordsList);
+    }
 
     private void handleEditButton(Patient patient) {
         Dialog<Patient> dialog = new Dialog<>();
@@ -542,6 +612,7 @@ public class DoctorController {
         });
     }
 
+
     private void handleDeleteButton(Patient patient) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Бататгах");
@@ -558,6 +629,138 @@ public class DoctorController {
         }
     }
 
+    private void handleAddAppointmentButton() {
+        Dialog<AppointmentRecord> dialog = new Dialog<>();
+        dialog.setTitle("Шинэ уулзалт нэмэх");
+
+        ButtonType saveButtonType = new ButtonType("Хадгалах", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButtonType = new ButtonType("Цуцлах", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, cancelButtonType);
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+
+        DatePicker datePicker = new DatePicker();
+        TextField timeField = new TextField();
+        TextField doctorNameField = new TextField();
+        TextField patientNameField = new TextField();
+
+        grid.add(new Text("Он сар:"), 0, 0);
+        grid.add(datePicker, 1, 0);
+        grid.add(new Text("Цаг:"), 0, 1);
+        grid.add(timeField, 1, 1);
+        grid.add(new Text("Эмчийн нэр:"), 0, 2);
+        grid.add(doctorNameField, 1, 2);
+        grid.add(new Text("Өвчтөний нэр:"), 0, 3);
+        grid.add(patientNameField, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                try {
+                    if (datePicker.getValue() == null || timeField.getText().isEmpty() ||
+                            doctorNameField.getText().isEmpty() || patientNameField.getText().isEmpty()) {
+                        throw new IllegalArgumentException("Бүх талбарыг бөглөнө үү.");
+                    }
+
+                    int generatedCode = DatabaseConnector.generateAppointmentCode();
+                    int doctorId = DatabaseConnector.getDoctorIdByName(doctorNameField.getText());
+                    int patientId = DatabaseConnector.getPatientIdByName(patientNameField.getText());
+
+                    return new AppointmentRecord(
+                            0,
+                            generatedCode,
+                            datePicker.getValue(),
+                            timeField.getText(),
+                            "active",
+                            doctorId,
+                            patientId
+                    );
+                } catch (Exception e) {
+                    showErrorDialog("Зөвшөөрөгдөөгүй утга", e.getMessage());
+                }
+            }
+            return null;
+        });
+
+        Optional<AppointmentRecord> result = dialog.showAndWait();
+
+        result.ifPresent(newAppointment -> {
+            boolean success = DatabaseConnector.addNewAppointment(newAppointment);
+            if (success) {
+                loadAppointmentRecordData();
+            } else {
+                showErrorDialog("Adding Appointment Failed", "There was an error while saving the new appointment.");
+            }
+        });
+    }
+
+
+
+    private void handleEditAppointmentButton(AppointmentRecord appointment) {
+        Dialog<AppointmentRecord> dialog = new Dialog<>();
+        dialog.setTitle("Уулзалтыг өөрчлөх");
+
+        ButtonType okButtonType = new ButtonType("Хадгалах", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButtonType = new ButtonType("Цуцлах", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, cancelButtonType);
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+
+        TextField dateField = new TextField(appointment.getDate().toString());
+        TextField timeField = new TextField(appointment.getTime());
+        TextField statusField = new TextField(appointment.getStatus());
+
+        grid.add(new Text("Он сар:"), 0, 0);
+        grid.add(dateField, 1, 0);
+        grid.add(new Text("Цаг:"), 0, 1);
+        grid.add(timeField, 1, 1);
+        grid.add(new Text("Төлөв:"), 0, 2);
+        grid.add(statusField, 1, 2);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == okButtonType) {
+                appointment.setDate(LocalDate.parse(dateField.getText()));
+                appointment.setTime(timeField.getText());
+                appointment.setStatus(statusField.getText());
+                return appointment;
+            }
+            return null;
+        });
+
+        Optional<AppointmentRecord> result = dialog.showAndWait();
+        result.ifPresent(updatedAppointment -> {
+            boolean success = DatabaseConnector.updateAppointment(updatedAppointment);
+            if (success) {
+                loadAppointmentRecordData();
+            } else {
+                showErrorDialog("Update failed", "There was an error while updating the appointment details.");
+            }
+        });
+    }
+
+    private void handleDeleteAppointmentButton(AppointmentRecord appointment) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Уулзалтыг цуцлах");
+        alert.setHeaderText("Уулзалтыг устгахдаа итгэлтэй байна уу?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = DatabaseConnector.deleteAppointment(appointment);
+            if (success) {
+                appointmentRecordsList.remove(appointment);
+                loadAppointmentRecordData();
+            } else {
+                showErrorDialog("Deletion failed", "There was an error while deleting the appointment.");
+            }
+        }
+    }
 
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
