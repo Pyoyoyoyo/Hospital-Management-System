@@ -121,7 +121,7 @@ public class DatabaseConnector {
         return appointments;
     }
 
-    public static List<AppointmentRecord> getAppointmentRecords() {
+    public static List<AppointmentRecord> getAppointmentRecordsByStatus(String status) {
         List<AppointmentRecord> appointmentRecords = new ArrayList<>();
         String query = "SELECT ar.appointment_code, ar.time, ar.date, ar.patient_id, ar.doctor_id, ar.status, " +
                 "p1.name AS patient_name, p2.name AS doctor_name " +
@@ -129,50 +129,57 @@ public class DatabaseConnector {
                 "JOIN patient p ON ar.patient_id = p.id " +
                 "JOIN doctor d ON ar.doctor_id = d.id " +
                 "JOIN person p1 ON p.person_id = p1.id " +
-                "JOIN person p2 ON d.person_id = p2.id";
+                "JOIN person p2 ON d.person_id = p2.id " +
+                "WHERE ar.status = ?"; // Use parameterized query for status
 
         try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while (rs.next()) {
-                int appointmentCode = rs.getInt("appointment_code");
-                String time = rs.getString("time");
-                LocalDate date = null;
+            // Set the status parameter (either 'active' or 'inactive')
+            stmt.setString(1, status);
 
-                try {
-                    date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
-                } catch (Exception e) {
-                    System.out.println("Error converting date: " + e.getMessage());
-                }
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int appointmentCode = rs.getInt("appointment_code");
+                    String time = rs.getString("time");
+                    LocalDate date = null;
 
-                int patientId = rs.getInt("patient_id");
-                int doctorId = rs.getInt("doctor_id");
-                String status = rs.getString("status");
+                    try {
+                        date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
+                    } catch (Exception e) {
+                        System.out.println("Error converting date: " + e.getMessage());
+                    }
 
-                // Fetch patient name and doctor name
-                String patientName = rs.getString("patient_name");
-                String doctorName = rs.getString("doctor_name");
+                    int patientId = rs.getInt("patient_id");
+                    int doctorId = rs.getInt("doctor_id");
+                    String statusFromDb = rs.getString("status");
 
-                if (patientName != null && doctorName != null && status != null) {
-                    // Create the AppointmentRecord with the fetched names
-                    AppointmentRecord appointmentRecord = new AppointmentRecord(
-                            0, appointmentCode, date, time, status, doctorId, patientId);
+                    // Fetch patient name and doctor name
+                    String patientName = rs.getString("patient_name");
+                    String doctorName = rs.getString("doctor_name");
 
-                    appointmentRecord.setPatientName(patientName);
-                    appointmentRecord.setDoctorName(doctorName);
+                    if (patientName != null && doctorName != null && statusFromDb != null) {
+                        // Create the AppointmentRecord with the fetched names
+                        AppointmentRecord appointmentRecord = new AppointmentRecord(
+                                0, appointmentCode, date, time, statusFromDb, doctorId, patientId);
 
-                    appointmentRecords.add(appointmentRecord);
-                } else {
-                    System.out.println("Skipping appointment due to missing data.");
+                        appointmentRecord.setPatientName(patientName);
+                        appointmentRecord.setDoctorName(doctorName);
+
+                        appointmentRecords.add(appointmentRecord);
+                    } else {
+                        System.out.println("Skipping appointment due to missing data.");
+                    }
                 }
             }
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
             e.printStackTrace();
         }
+
         return appointmentRecords;
     }
+
 
     public static Map<String, Integer> getPaymentStatusCounts(String selectedValue) {
         String query = "SELECT status, COUNT(*) FROM payment WHERE status IN ('Paid', 'Unpaid', 'Overdue') AND date >= ? GROUP BY status";

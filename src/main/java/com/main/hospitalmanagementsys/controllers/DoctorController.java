@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -179,7 +178,7 @@ public class DoctorController {
         updatePieChart();
         patientList = FXCollections.observableArrayList(DatabaseConnector.getAllPatients());
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
-        appointmentRecordsList = FXCollections.observableArrayList(DatabaseConnector.getAppointmentRecords());
+        appointmentRecordsList = FXCollections.observableArrayList(DatabaseConnector.getAppointmentRecordsByStatus("active"));
         AppointmentsTableView.setItems(appointmentList);
         patientTableView.setItems(patientList);
         AppointmentRecordsTableView.setItems(appointmentRecordsList);
@@ -211,9 +210,14 @@ public class DoctorController {
 
         resetButtonStylesOnAppointments();
         setButtonSelectedOnAppointments(newAppointmentsButton);
-        newAppointmentsButton.setOnAction(e -> onButtonClickOnAppointments(newAppointmentsButton));
-        completedAppointmentsButton.setOnAction(e -> onButtonClickOnAppointments(completedAppointmentsButton));
-
+        newAppointmentsButton.setOnAction(e -> {
+            onButtonClickOnAppointments(newAppointmentsButton);
+            handleNewAppointments();
+        });
+        completedAppointmentsButton.setOnAction(e -> {
+            onButtonClickOnAppointments(completedAppointmentsButton);
+            handleCompletedAppointments();
+        });
         homeButton.setOnAction(event -> {
             onButtonClick(homeButton);
             navigateToHome();
@@ -293,7 +297,8 @@ public class DoctorController {
         });
         appointmentStatusColumn.setCellValueFactory((cellData -> new SimpleStringProperty(cellData.getValue().getStatus())));
 
-        loadAppointmentRecordData();
+        handleNewAppointments();
+
         searchAppointment();
         searchAppointmentByDate();
         appointmentEditColumn.setCellFactory(param -> new TableCell<AppointmentRecord, Void>() {
@@ -512,11 +517,20 @@ public class DoctorController {
         patientTableView.setItems(patientList);
     }
 
-    private void loadAppointmentRecordData() {
-        List<AppointmentRecord> records = DatabaseConnector.getAppointmentRecords();
+    @FXML
+    private void handleNewAppointments() {
+        List<AppointmentRecord> records = DatabaseConnector.getAppointmentRecordsByStatus("active");
         appointmentRecordsList.setAll(records);
         AppointmentRecordsTableView.setItems(appointmentRecordsList);
     }
+
+    @FXML
+    private void handleCompletedAppointments() {
+        List<AppointmentRecord> inactiveRecords = DatabaseConnector.getAppointmentRecordsByStatus("inactive");
+        appointmentRecordsList.setAll(inactiveRecords);
+        AppointmentRecordsTableView.setItems(appointmentRecordsList);
+    }
+
 
     private void handleEditButton(Patient patient) {
         Dialog<Patient> dialog = new Dialog<>();
@@ -726,7 +740,7 @@ public class DoctorController {
         result.ifPresent(newAppointment -> {
             boolean success = DatabaseConnector.addNewAppointment(newAppointment);
             if (success) {
-                loadAppointmentRecordData();
+                handleNewAppointments();
             } else {
                 showErrorDialog("Adding Appointment Failed", "There was an error while saving the new appointment.");
             }
@@ -774,7 +788,7 @@ public class DoctorController {
         result.ifPresent(updatedAppointment -> {
             boolean success = DatabaseConnector.updateAppointment(updatedAppointment);
             if (success) {
-                loadAppointmentRecordData();
+                handleNewAppointments();
             } else {
                 showErrorDialog("Update failed", "There was an error while updating the appointment details.");
             }
@@ -791,7 +805,7 @@ public class DoctorController {
             boolean success = DatabaseConnector.deleteAppointment(appointment);
             if (success) {
                 appointmentRecordsList.remove(appointment);
-                loadAppointmentRecordData();
+                handleNewAppointments();
             } else {
                 showErrorDialog("Deletion failed", "There was an error while deleting the appointment.");
             }
