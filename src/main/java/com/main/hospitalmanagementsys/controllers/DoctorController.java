@@ -121,7 +121,7 @@ public class DoctorController {
     @FXML
     public TextField searchFieldOnAppointment;
     @FXML
-    public  TextField searchFieldByDateOnAppointment;
+    public  DatePicker datePickerByDateOnAppointment;
     private ObservableList<Patient> patientList;
     private ObservableList<AppointmentRecord> appointmentRecordsList;
 
@@ -139,6 +139,8 @@ public class DoctorController {
     private TableColumn<AppointmentRecord, String> appointmentPaymentStateColumn;
     @FXML
     private TableColumn<AppointmentRecord, Void> appointmentEditColumn;
+    @FXML
+    private FilteredList<AppointmentRecord> filteredAppointmentList;
 
 
     @FXML
@@ -268,7 +270,6 @@ public class DoctorController {
             String patientName = DatabaseConnector.getPatientNameById(patientId);
             return new SimpleStringProperty(patientName);
         });
-
         appointmentDoctorNameColumn.setCellValueFactory(cellData -> {
             int doctorId = cellData.getValue().getDoctorId();
             String doctorName = DatabaseConnector.getDoctorNameById(doctorId);
@@ -421,18 +422,20 @@ public class DoctorController {
     }
 
     private void searchAppointment() {
-        FilteredList<AppointmentRecord> filteredList = new FilteredList<>(appointmentRecordsList, appointment -> true);
+        filteredAppointmentList = new FilteredList<>(appointmentRecordsList, appointment -> true);
 
         searchFieldOnAppointment.textProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Text entered: " + newValue);
 
-            filteredList.setPredicate(appointment -> {
+            filteredAppointmentList.setPredicate(appointment -> {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase().trim();
                 String patientName = appointment.getPatientName().toLowerCase().trim();
+
+                System.out.println("Patient Name: " + patientName);
 
                 boolean matches = patientName.contains(lowerCaseFilter);
 
@@ -442,32 +445,31 @@ public class DoctorController {
             });
         });
 
-        AppointmentRecordsTableView.setItems(filteredList);
+        AppointmentRecordsTableView.setItems(filteredAppointmentList);
     }
 
     private void searchAppointmentByDate() {
-        FilteredList<AppointmentRecord> filteredList = new FilteredList<>(appointmentRecordsList, appointment -> true);
+        filteredAppointmentList = new FilteredList<>(appointmentRecordsList, appointment -> true);
 
-        searchFieldByDateOnAppointment.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Text entered: " + newValue);
+        datePickerByDateOnAppointment.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Selected date: " + newValue);
 
-            filteredList.setPredicate(appointment -> {
-                if (newValue == null || newValue.isEmpty()) {
+            filteredAppointmentList.setPredicate(appointment -> {
+                if (newValue == null) {
                     return true;
                 }
 
-                String lowerCaseFilter = newValue.toLowerCase().trim();
-                String appointmentDate = appointment.getDate().toString().toLowerCase().trim();
+                LocalDate appointmentDate = appointment.getDate();
 
-                boolean matches = appointmentDate.contains(lowerCaseFilter);
+                boolean matches = appointmentDate.equals(newValue);
 
-                System.out.println("Appointment matches filter: " + matches);
+                System.out.println("Appointment matches filter by date: " + matches);
 
                 return matches;
             });
-        });
 
-        AppointmentRecordsTableView.setItems(filteredList);
+            AppointmentRecordsTableView.setItems(filteredAppointmentList);
+        });
     }
 
     private void loadPatientData() {
