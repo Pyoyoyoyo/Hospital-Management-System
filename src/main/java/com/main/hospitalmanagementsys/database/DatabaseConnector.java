@@ -129,8 +129,7 @@ public class DatabaseConnector {
                 "JOIN patient p ON ar.patient_id = p.id " +
                 "JOIN doctor d ON ar.doctor_id = d.id " +
                 "JOIN person p1 ON p.person_id = p1.id " +
-                "JOIN person p2 ON d.person_id = p2.id " +
-                "WHERE ar.status = 'active'";
+                "JOIN person p2 ON d.person_id = p2.id";
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement();
