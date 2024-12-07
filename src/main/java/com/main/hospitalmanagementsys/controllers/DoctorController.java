@@ -192,6 +192,7 @@ public class DoctorController {
                     setGraphic(null);
                 } else {
                     Button claimButton = new Button("Төлбөр Нэхэмжлэх");
+                    claimButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
 
                     claimButton.setOnAction(event -> {
                         PatientPayment patient = getTableView().getItems().get(getIndex());
@@ -248,7 +249,6 @@ public class DoctorController {
         editColumn.setCellFactory(param -> new TableCell<Patient, Void>() {
             private final Button editButton = new Button("Засах");
             private final Button deleteButton = new Button("Устгах");
-
             {
                 editButton.setOnAction(event -> {
                     Patient patient = getTableRow().getItem();
@@ -272,6 +272,8 @@ public class DoctorController {
                     setGraphic(null);
                 } else {
                     HBox buttonBox = new HBox(10, editButton, deleteButton);
+                    editButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
+                    deleteButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
                     setGraphic(buttonBox);
                 }
             }
@@ -327,8 +329,9 @@ public class DoctorController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    // Arrange the buttons side by side
                     HBox buttonBox = new HBox(10, editButton, deleteButton);
+                    editButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
+                    deleteButton.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;");
                     setGraphic(buttonBox);
                 }
             }

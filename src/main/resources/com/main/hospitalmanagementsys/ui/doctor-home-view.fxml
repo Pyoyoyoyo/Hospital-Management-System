@@ -344,16 +344,6 @@
                            </children>
                         </AnchorPane>
                         <TextField fx:id="searchFieldOnPatient" layoutX="55.0" layoutY="72.0" promptText="  Хайх" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-                        <HBox alignment="CENTER" layoutX="835.0" layoutY="559.0" prefHeight="35.0" prefWidth="329.0" spacing="10.0">
-                           <children>
-                              <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="69.0" style="-fx-background-radius: 10; -fx-background-color: #ffffff;" text="Өмнөх" />
-                              <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10; -fx-background-color: #4CAF50;" text="1" textFill="WHITE" />
-                              <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="2" textFill="#4caf50" />
-                              <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="3" textFill="#4caf50" />
-                              <Label alignment="CENTER" prefHeight="28.0" prefWidth="52.0" style="-fx-background-radius: 10;" text="4" textFill="#4caf50" />
-                              <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="69.0" style="-fx-background-radius: 10; -fx-background-color: #ffffff;" text="Дараах" textFill="#4caf50" />
-                           </children>
-                        </HBox>
                         <TableView fx:id="patientTableView" layoutX="55.0" layoutY="119.0" prefHeight="416.0" prefWidth="1110.0">
                            <columns>
                               <TableColumn fx:id="nameColumn" prefWidth="147.20001220703125" text="Өвчтний нэр" />
