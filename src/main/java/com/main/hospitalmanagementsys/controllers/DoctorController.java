@@ -38,7 +38,7 @@ public class DoctorController {
     @FXML
     private Button logoutButton;
     @FXML
-    private AnchorPane homepage;
+    public AnchorPane homepage;
 
     @FXML
     private Button addpatientbutton;
@@ -47,35 +47,35 @@ public class DoctorController {
     private Button addappointmentbutton;
 
     @FXML
-    private AnchorPane paymentpage;
+    public AnchorPane paymentpage;
 
     @FXML
-    private AnchorPane appointmentpage;
+    public AnchorPane appointmentpage;
 
     @FXML
-    private AnchorPane patientsinfopage;
+    public AnchorPane patientsinfopage;
     @FXML
-    private Label appointmentCountLabel;
+    public Label appointmentCountLabel;
 
     @FXML
-    private Label newPatientCountLabel;
+    public Label newPatientCountLabel;
 
     @FXML
-    private ComboBox<String> timePeriodComboBox;
+    public ComboBox<String> timePeriodComboBox;
     @FXML
-    private TableView<Appointment> AppointmentsTableView;
+    public TableView<Appointment> AppointmentsTableView;
 
     @FXML
-    private TableColumn<Appointment, String> timeColumn;
+    public TableColumn<Appointment, String> timeColumn;
 
     @FXML
     private TableColumn<Appointment, LocalDate> dateColumn;
 
     @FXML
-    private TableColumn<Appointment, String> patientNameColumn;
+    public TableColumn<Appointment, String> patientNameColumn;
 
     @FXML
-    private TableColumn<Appointment, String> doctorNameColumn;
+    public TableColumn<Appointment, String> doctorNameColumn;
 
     @FXML
     private PieChart pieChart;
@@ -522,7 +522,7 @@ public class DoctorController {
      *
      * @author Tsagaadai, Sodbileg
      */
-    private void navigateToAppointments() {
+    public void navigateToAppointments() {
         try {
             patientsinfopage.setVisible(false);
             homepage.setVisible(false);
@@ -558,7 +558,7 @@ public class DoctorController {
      *
      * @author Tsagaadai, Sodbileg
      */
-    private void updatePieChart() {
+    public void updatePieChart() {
         String selectedRange = timeRangeComboBox.getSelectionModel().getSelectedItem();
 
         Map<String, Integer> paymentCounts = DatabaseConnector.getPaymentStatusCounts(selectedRange);
@@ -594,7 +594,7 @@ public class DoctorController {
      *
      * @author Tsagaadai, Sodbileg
      */
-    private void claimPayment(PatientPayment patient) {
+    public void claimPayment(PatientPayment patient) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Нэхэмжлэл Илгээх");
         alert.setHeaderText("Нэхэмжлэл илгээгдлээ");
@@ -642,7 +642,7 @@ public class DoctorController {
      *
      * @author Tsagaadai, Sodbileg
      */
-    private void searchAppointment() {
+    public void searchAppointment() {
         filteredAppointmentList = new FilteredList<>(appointmentRecordsList, appointment -> true);
 
         searchFieldOnAppointment.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -814,7 +814,7 @@ public class DoctorController {
      *
      * @author Tsagaadai, Sodbileg
      */
-    private void handleAddPatientButton() {
+    public void handleAddPatientButton() {
         Dialog<Patient> dialog = new Dialog<>();
         dialog.setTitle("Шинэ өвчтөн нэмэх");
 

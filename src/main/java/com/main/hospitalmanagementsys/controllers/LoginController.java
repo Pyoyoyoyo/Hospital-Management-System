@@ -14,10 +14,10 @@ import java.io.IOException;
 public class LoginController {
 
     @FXML
-    private TextField usernameField;
+    public TextField usernameField;
 
     @FXML
-    private PasswordField passwordField;
+    public PasswordField passwordField;
     /**
      * @description Login button buyu login hiigdeh uyd buyu shiljih uildliin function.
      * herew doctoriin newtreh ner password zuv bol doctoriin module ruu shiljine.
@@ -27,7 +27,7 @@ public class LoginController {
      * @author Tsagaadai, Sodbileg
      */
     @FXML
-    private void handleLogin(ActionEvent event) {
+    public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -43,7 +43,7 @@ public class LoginController {
      * @return void
      * @throws IOException here tuhain doctoriin fxml oldohgui uyd exception butsaana.
      */
-    private void loadDoctorsView() {
+    public void loadDoctorsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml"));
             AnchorPane doctorsView = loader.load();
@@ -67,7 +67,7 @@ public class LoginController {
      * @throws IOException herwee FXML file forgot-password-view baihgui bol exception butsana.
      */
     @FXML
-    private void handleForgotPassword(ActionEvent event) {
+    public void handleForgotPassword(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/forgot-password-view.fxml"));
             AnchorPane forgotPasswordView = loader.load();
