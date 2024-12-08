@@ -523,6 +523,7 @@ public class DoctorController {
      * @author Tsagaadai, Sodbileg
      */
     public void navigateToAppointments() {
+        System.out.println("Navigating to Appointments");
         try {
             patientsinfopage.setVisible(false);
             homepage.setVisible(false);

@@ -6,7 +6,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIf;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
@@ -17,6 +16,7 @@ class ForgotPasswordControllerTest {
     private ForgotPasswordController forgotPasswordController;
     private TextField emailField;
     private Stage mockStage;
+
     @BeforeEach
     void setUp() {
         forgotPasswordController = new ForgotPasswordController();
@@ -25,28 +25,30 @@ class ForgotPasswordControllerTest {
 
         forgotPasswordController.emailField = emailField;
     }
+
     @Test
     void testHandleResetPasswordValidEmail() throws Exception {
         when(emailField.getText()).thenReturn("test@example.com");
 
-        FXMLLoader loader = mock(FXMLLoader.class);
-        AnchorPane mockView = mock(AnchorPane.class);
-        when(loader.load()).thenReturn(mockView);
-        forgotPasswordController.loadLoginForm();
+        assertTrue(forgotPasswordController.isValidEmail(emailField.getText()));
 
         forgotPasswordController.handleResetPassword(null);
 
+        // Here we're verifying if certain internal actions happened
         verify(mockStage).setScene(any(Scene.class));
         verify(mockStage).show();
-
     }
 
     @Test
     void testHandleResetPasswordInvalidEmail() {
         when(emailField.getText()).thenReturn("invalid-email");
 
+        assertFalse(forgotPasswordController.isValidEmail(emailField.getText()));
+
         forgotPasswordController.handleResetPassword(null);
 
+        verify(mockStage, never()).setScene(any(Scene.class));
+        verify(mockStage, never()).show();
     }
 
     @Test
@@ -65,6 +67,7 @@ class ForgotPasswordControllerTest {
         FXMLLoader loader = mock(FXMLLoader.class);
         AnchorPane mockView = mock(AnchorPane.class);
         when(loader.load()).thenReturn(mockView);
+
         forgotPasswordController.loadLoginForm();
 
         verify(mockStage).setScene(any(Scene.class));

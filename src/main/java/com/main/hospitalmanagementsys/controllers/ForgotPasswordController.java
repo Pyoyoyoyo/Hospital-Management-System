@@ -28,7 +28,6 @@ public class ForgotPasswordController {
 
         if (isValidEmail(email)) {
             System.out.println("Password reset link sent to: " + email);
-            // Navigate back to the login form
             loadLoginForm();
         } else {
             System.out.println("Invalid email. Please try again.");
