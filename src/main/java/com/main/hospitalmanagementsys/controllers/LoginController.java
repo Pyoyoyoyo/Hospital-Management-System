@@ -19,10 +19,14 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordField;
-
-    @FXML
-    private Hyperlink forgotPasswordLink;
-
+    /**
+     * @description Login button buyu login hiigdeh uyd buyu shiljih uildliin function.
+     * herew doctoriin newtreh ner password zuv bol doctoriin module ruu shiljine.
+     *
+     * @param event login button daragdah uyd enehuu action hiigdene.
+     * @return void
+     * @author Tsagaadai, Sodbileg
+     */
     @FXML
     private void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
@@ -34,7 +38,12 @@ public class LoginController {
             System.out.println("Invalid credentials. Please try again.");
         }
     }
-
+    /**
+     * @description Login amjilttai bolson uyd doctor view-iig achaallana.
+     *
+     * @return void
+     * @throws IOException here tuhain doctoriin fxml oldohgui uyd exception butsaana.
+     */
     private void loadDoctorsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml"));
@@ -50,7 +59,14 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * @description "Нууц үг сэргээх" holboos deer darah eventiig hiih .
+     * forgot-password-view ruu shiljine.
+     *
+     * @param event holboos event-iin uildel.
+     * @return void
+     * @throws IOException herwee FXML file forgot-password-view baihgui bol exception butsana.
+     */
     @FXML
     private void handleForgotPassword(ActionEvent event) {
         try {

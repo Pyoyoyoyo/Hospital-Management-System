@@ -123,15 +123,12 @@ public class DoctorController {
     private TextField searchFieldOnPatient;
     @FXML
     public TextField searchFieldOnAppointment;
-
     @FXML
     private Button newAppointmentsButton;
-
     @FXML
     private Button completedAppointmentsButton;
     @FXML
     public  DatePicker datePickerByDateOnAppointment;
-
     private ObservableList<Patient> patientList;
     private ObservableList<AppointmentRecord> appointmentRecordsList;
 
@@ -161,8 +158,6 @@ public class DoctorController {
     @FXML
     private TableColumn<PatientPayment, String> paymentStatusColumn;
     private ObservableList<PatientPayment> paymentList;
-
-
 
     /**
      * @description Initiliaze buyu Programm ehelhed database-ees Utga olgoh, uridchilan beldeh function.
@@ -384,6 +379,7 @@ public class DoctorController {
         });
         loadPaymentData();
     }
+
     /**
      * @description Module buriin hoorond shiljih uyd style-nii change oruulah zorilgotoi function.
      *
@@ -406,6 +402,7 @@ public class DoctorController {
     private void resetButtonStyleOnAppointments(Button button) {
         button.setStyle("-fx-background-color: transparent; -fx-text-fill: GREY; -fx-border-width: 0 0 2 0; -fx-font-size: 14;");
     }
+
     /**
      * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
      *
@@ -444,6 +441,7 @@ public class DoctorController {
         resetButtonStyle(paymentButton);
         resetButtonStyle(logoutButton);
     }
+
     /**
      * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
      *
@@ -454,6 +452,7 @@ public class DoctorController {
     private void resetButtonStyle(Button button) {
         button.setStyle("-fx-background-color: transparent; -fx-text-fill: #7f8f98;");
     }
+
     /**
      * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
      *
@@ -464,6 +463,7 @@ public class DoctorController {
     private void setButtonSelected(Button button) {
         button.setStyle("-fx-background-color: rgba(76, 175, 80, 0.1); -fx-text-fill: #4caf50;");
     }
+
     /**
      * @description Module buriin hoorond shiljih uyd modulenii style-nii change oruulah zorilgotoi function.
      *
@@ -475,6 +475,7 @@ public class DoctorController {
         resetButtonStyles();
         setButtonSelected(clickedButton);
     }
+
     /**
      * @description Module buriin hoorond shiljih zorilgotoi route function.
      *
@@ -492,6 +493,7 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+
     /**
      * @description Module buriin hoorond shiljih zorilgotoi route function.
      *
@@ -512,6 +514,7 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+
     /**
      * @description Module buriin hoorond shiljih zorilgotoi route function.
      *
@@ -529,6 +532,7 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+
     /**
      * @description Module buriin hoorond shiljih zorilgotoi route function.
      *
@@ -546,6 +550,7 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
+
     /**
      * @description Piechart buyu statistic uzuuleltiin Data-g tohiruulah hiigeed database-ees ugugduliig awah,tohiruulah zorilgotoi.
      *
@@ -566,6 +571,7 @@ public class DoctorController {
         pieChart.getData().clear();
         pieChart.getData().addAll(paidSlice, unpaidSlice, overdue);
     }
+
     /**
      * @description Husnegten medeeleliin utgiig database-ees beltgeh tuund haruulahaar tohiruulah function.
      *
@@ -596,6 +602,7 @@ public class DoctorController {
 
         alert.showAndWait();
     }
+
     /**
      * @description Hereglegchiin husnegtees hereglegch buyu uwchtung nereer haih,hailt hiih zorilgotoi function.
      *
@@ -626,6 +633,7 @@ public class DoctorController {
 
         patientTableView.setItems(filteredList);
     }
+
     /**
      * @description Uulzalt haruulah husnegtees hereglegch
      * buyu uulzaltiig nereer haih,hailt hiih zorilgotoi function.
@@ -660,6 +668,7 @@ public class DoctorController {
 
         AppointmentRecordsTableView.setItems(filteredAppointmentList);
     }
+
     /**
      * @description Uulzaltiin medeelliig tuunii on saraar haih hailt hiih zorilgotoi function
      *
@@ -690,6 +699,7 @@ public class DoctorController {
             AppointmentRecordsTableView.setItems(filteredAppointmentList);
         });
     }
+
     /**
      * @description Database-ees hereglegchiin medeelliig
      * observable list-eer table-d ugsrah load hiih zorilgotoi function
@@ -703,6 +713,7 @@ public class DoctorController {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPatientNameProperty());
         patientTableView.setItems(patientList);
     }
+
     /**
      * @description Shine uulzalt bolon duussan uulzalt button
      * deer hereglegchiin medeelliig husnegtend songoson hesgeer haruulah zorilgtoi function.
@@ -717,6 +728,7 @@ public class DoctorController {
         appointmentRecordsList.setAll(records);
         AppointmentRecordsTableView.setItems(appointmentRecordsList);
     }
+
     /**
      * @description Shine uulzalt bolon duussan uulzalt button
      * deer hereglegchiin medeelliig husnegtend songoson hesgeer haruulah zorilgtoi function.
@@ -794,6 +806,7 @@ public class DoctorController {
             }
         });
     }
+
     /**
      * @description Husnegten medeelel deeres zaswar oruulah uyd hereglegchiin prompt asuuh insertion function.
      *
