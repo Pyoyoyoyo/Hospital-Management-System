@@ -1,7 +1,5 @@
 package com.main.hospitalmanagementsys.model;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class PatientPayment {
     private String patientName;
     private String doctorName;
