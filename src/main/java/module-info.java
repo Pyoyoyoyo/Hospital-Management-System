@@ -1,12 +1,9 @@
 module com.main.hospitalmanagementsys {
     requires javafx.controls;
     requires javafx.fxml;
-
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires java.sql;
-    requires org.junit.jupiter.api;
-
 
     opens com.main.hospitalmanagementsys.model to javafx.base;
     opens com.main.hospitalmanagementsys to javafx.fxml;

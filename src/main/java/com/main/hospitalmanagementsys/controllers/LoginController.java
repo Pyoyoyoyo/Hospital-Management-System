@@ -14,10 +14,13 @@ import java.io.IOException;
 public class LoginController {
 
     @FXML
-    private TextField usernameField;
+    TextField usernameField;
 
     @FXML
-    private PasswordField passwordField;
+    PasswordField passwordField;
+
+    private static final String DOCTOR_HOME_VIEW = "/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml";
+    private static final String FORGOT_PASSWORD_VIEW = "/com/main/hospitalmanagementsys/ui/forgot-password-view.fxml";
     /**
      * @description Login button buyu login hiigdeh uyd buyu shiljih uildliin function.
      * herew doctoriin newtreh ner password zuv bol doctoriin module ruu shiljine.
@@ -27,7 +30,7 @@ public class LoginController {
      * @author Tsagaadai, Sodbileg
      */
     @FXML
-    private void handleLogin(ActionEvent event) {
+    public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -43,9 +46,9 @@ public class LoginController {
      * @return void
      * @throws IOException here tuhain doctoriin fxml oldohgui uyd exception butsaana.
      */
-    private void loadDoctorsView() {
+    public void loadDoctorsView() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(DOCTOR_HOME_VIEW));
             AnchorPane doctorsView = loader.load();
 
             Scene doctorsScene = new Scene(doctorsView);
@@ -67,9 +70,9 @@ public class LoginController {
      * @throws IOException herwee FXML file forgot-password-view baihgui bol exception butsana.
      */
     @FXML
-    private void handleForgotPassword(ActionEvent event) {
+    public void handleForgotPassword(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/forgot-password-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FORGOT_PASSWORD_VIEW));
             AnchorPane forgotPasswordView = loader.load();
 
             Scene forgotPasswordScene = new Scene(forgotPasswordView);

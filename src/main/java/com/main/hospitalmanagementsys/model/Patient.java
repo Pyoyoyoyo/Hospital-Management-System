@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Patient {
-    private StringProperty patientName;
+    private final StringProperty patientName;
     private String medicalHistory;
     private String insuranceInformation;
     private String registrationNumber;

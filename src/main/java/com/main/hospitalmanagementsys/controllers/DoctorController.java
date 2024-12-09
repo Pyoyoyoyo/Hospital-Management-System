@@ -1,6 +1,7 @@
 package com.main.hospitalmanagementsys.controllers;
 
 import com.main.hospitalmanagementsys.model.*;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -129,8 +130,6 @@ public class DoctorController {
     private Button completedAppointmentsButton;
     @FXML
     public  DatePicker datePickerByDateOnAppointment;
-    private ObservableList<Patient> patientList;
-    private ObservableList<AppointmentRecord> appointmentRecordsList;
 
     @FXML
     private TableView<AppointmentRecord> AppointmentRecordsTableView;
@@ -146,7 +145,8 @@ public class DoctorController {
     private TableColumn<AppointmentRecord, String> appointmentStatusColumn;
     @FXML
     private TableColumn<AppointmentRecord, Void> appointmentEditColumn;
-    @FXML
+    private ObservableList<Patient> patientList;
+    private ObservableList<AppointmentRecord> appointmentRecordsList;
     private FilteredList<AppointmentRecord> filteredAppointmentList;
 
     @FXML
@@ -157,7 +157,6 @@ public class DoctorController {
     private TableColumn<PatientPayment, String> paymentClaimColumn;
     @FXML
     private TableColumn<PatientPayment, String> paymentStatusColumn;
-    private ObservableList<PatientPayment> paymentList;
 
     /**
      * @description Initiliaze buyu Programm ehelhed database-ees Utga olgoh, uridchilan beldeh function.
@@ -377,7 +376,10 @@ public class DoctorController {
                 }
             }
         });
-        loadPaymentData();
+        Platform.runLater(() -> {
+            loadPaymentData();
+            loadPatientData();
+        });
     }
 
     /**
@@ -1064,7 +1066,7 @@ public class DoctorController {
         }
     }
     private void loadPaymentData() {
-        paymentList = FXCollections.observableArrayList(
+        ObservableList<PatientPayment> paymentList = FXCollections.observableArrayList(
                 DatabaseConnector.getPatientPaymentsFromDatabase()
         );
         paymentTableView.setItems(paymentList);

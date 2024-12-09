@@ -26,7 +26,11 @@ public class DatabaseConnector {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            // Umnu ymar negen connection bgaagui tohioldold l connection hiigdene
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                System.out.println("Connected to the PostgreSQL database!");
+            }
             System.out.println("Connected to the PostgreSQL database!");
         } catch (SQLException e) {
             System.out.println("Connection failed due to SQLException.");
@@ -56,6 +60,7 @@ public class DatabaseConnector {
         LocalDate currentDate = LocalDate.now();
         LocalDate filterDate = null;
 
+        // shuultuuriin ognoog zuvhun 1 udaa todorhoilohiin tuld switch-case ashiglasan
         switch (selectedValue) {
             case "7 хоногоор":
                 filterDate = currentDate.minus(7, ChronoUnit.DAYS);
@@ -68,15 +73,20 @@ public class DatabaseConnector {
                 break;
         }
 
+        // Stop testing when you know the answer
+        if (filterDate == null) {
+            return 0;
+        }
+
         int count = 0;
         try (Connection conn = DatabaseConnector.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            if (filterDate != null) {
-                stmt.setDate(1, Date.valueOf(filterDate));
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    count = rs.getInt(1);
-                }
+
+            // Set filterDate parameter
+            stmt.setDate(1, Date.valueOf(filterDate));
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,8 +106,8 @@ public class DatabaseConnector {
         String query = "SELECT COUNT(*) FROM appointment_record WHERE status = 'active' AND date::date = ?";
 
         int count = 0;
-        try (Connection conn = connect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Stop testing when you know the answer
             stmt.setDate(1, Date.valueOf(currentDate));
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -125,10 +135,9 @@ public class DatabaseConnector {
                 "JOIN person p2 ON d.person_id = p2.id " +
                 "WHERE ar.status = 'active'";
 
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
 
+            // Eliminate common subexpression by reusing data
             while (rs.next()) {
                 String time = rs.getString("time");
                 LocalDate date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
