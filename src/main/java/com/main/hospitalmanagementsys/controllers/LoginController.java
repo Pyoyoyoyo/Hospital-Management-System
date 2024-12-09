@@ -21,6 +21,7 @@ public class LoginController {
 
     private static final String DOCTOR_HOME_VIEW = "/com/main/hospitalmanagementsys/ui/doctor-home-view.fxml";
     private static final String FORGOT_PASSWORD_VIEW = "/com/main/hospitalmanagementsys/ui/forgot-password-view.fxml";
+
     /**
      * @description Login button buyu login hiigdeh uyd buyu shiljih uildliin function.
      * herew doctoriin newtreh ner password zuv bol doctoriin module ruu shiljine.

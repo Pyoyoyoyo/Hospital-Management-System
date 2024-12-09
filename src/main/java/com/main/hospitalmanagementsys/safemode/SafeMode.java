@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class SafeMode {
 
-    private static final String DEFAULT_DB_URL = "jdbc:h2:mem:testdb"; // Local fallback database
+    private static final String DEFAULT_DB_URL = "jdbc:h2:mem:testdb";
 
     public static Connection getDatabaseConnection() throws SQLException {
         try {
@@ -14,9 +14,9 @@ public class SafeMode {
             return DriverManager.getConnection(DEFAULT_DB_URL);
         }
     }
+
     public static String getUserData(int userId) {
         try (Connection conn = getDatabaseConnection()) {
-            // Assume query user data from DB
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = " + userId);
             if (rs.next()) {

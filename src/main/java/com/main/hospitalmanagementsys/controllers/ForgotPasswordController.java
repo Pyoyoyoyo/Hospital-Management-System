@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ForgotPasswordController {
 
     @FXML
-    private TextField emailField;
+    public TextField emailField;
 
     /**
      * @description password shinechleh button click event.
@@ -23,12 +23,11 @@ public class ForgotPasswordController {
      * @author Tsagaadai, Sodbileg
      */
     @FXML
-    private void handleResetPassword(ActionEvent event) {
+    public void handleResetPassword(ActionEvent event) {
         String email = emailField.getText();
 
         if (isValidEmail(email)) {
             System.out.println("Password reset link sent to: " + email);
-            // Navigate back to the login form
             loadLoginForm();
         } else {
             System.out.println("Invalid email. Please try again.");
@@ -41,7 +40,7 @@ public class ForgotPasswordController {
      * @param email email address mun esehiig shalgana.
      * @return format ni mun bol Truee utga butsaana, ugui bol False utga butsaana
      */
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         return email != null && email.contains("@");
     }
 
@@ -51,7 +50,7 @@ public class ForgotPasswordController {
      * @return void
      * @throws IOException fxml file oldohgui uyd exception butsaana.
      */
-    private void loadLoginForm() {
+    public void loadLoginForm() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/main/hospitalmanagementsys/ui/login-view.fxml"));
             AnchorPane loginView = loader.load();
