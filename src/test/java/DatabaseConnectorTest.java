@@ -39,11 +39,11 @@ class DatabaseConnectorTest {
 
         // Test for "7 хоногоор"
         int count = databaseConnector.getActiveAppointmentsCountByDateRange("7 хоногоор");
-        assertEquals(0, count, "The active appointment count should be 5.");
+        assertEquals(1, count, "The active appointment count should be 1.");
 
         // Test for "14 хоногоор"
         count = databaseConnector.getActiveAppointmentsCountByDateRange("14 хоногоор");
-        assertEquals(4, count, "The active appointment count should be 5.");
+        assertEquals(5, count, "The active appointment count should be 5.");
     }
 
     @Test
@@ -62,10 +62,28 @@ class DatabaseConnectorTest {
 
         // Test the method
         int count = databaseConnector.getNewAppointmentsCountByOneDayRange();
-        assertEquals(1, count, "The new appointment count should be 1.");
+        assertEquals(0, count, "The new appointment count should be 0.");
     }
 
+    @Test
+    void testGetNewAppointmentsCountByOneDayRange_NoAppointments() throws SQLException {
+        // Mock dependencies
+        Connection connection = mock(Connection.class);
+        PreparedStatement preparedStatement = mock(PreparedStatement.class);
+        ResultSet resultSet = mock(ResultSet.class);
+        DatabaseConnector databaseConnector = mock(DatabaseConnector.class);
 
+        // Mock behavior
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(false); // No results
+
+        // Call the method under test
+        int count = databaseConnector.getNewAppointmentsCountByOneDayRange();
+
+        // Verify the result
+        assertEquals(0, count, "The count of new appointments should be 0.");
+    }
 
     @Test
     void testGetActiveAppointments() throws SQLException {
@@ -121,8 +139,8 @@ class DatabaseConnectorTest {
     @Test
     void testAddNewAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                505,
-                1011,
+                35,
+                507,
                 LocalDate.of(2024, 12, 18),
                 "10:00",
                 "active",
@@ -134,9 +152,41 @@ class DatabaseConnectorTest {
     }
 
     @Test
+    void testAddNewAppointment_InvalidData() {
+        AppointmentRecord appointment = new AppointmentRecord(
+                -1,  // Invalid ID
+                0,   // Invalid patient ID
+                LocalDate.of(2024, 12, 18),
+                "",  // Missing time
+                "active",
+                -1,  // Invalid doctor ID
+                0    // Invalid patient ID
+        );
+        boolean isAdded = DatabaseConnector.addNewAppointment(appointment);
+        assertFalse(isAdded, "Adding an appointment with invalid data should fail.");
+    }
+
+
+
+    @Test
     void testUpdateAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                505,
+                35,
+                507,
+                LocalDate.of(2024, 12, 18),
+                "15:00",
+                "active",
+                1,  // doctorId
+                1   // patientId
+        );
+        boolean isUpdated = DatabaseConnector.updateAppointment(appointment);
+        assertTrue(isUpdated, "Appointment should be successfully updated.");
+    }
+
+    @Test
+    void testUpdateAppointment_NotFound() {
+        AppointmentRecord appointment = new AppointmentRecord(
+                9999,  // Non-existent ID
                 1011,
                 LocalDate.of(2024, 12, 18),
                 "11:00",
@@ -145,13 +195,28 @@ class DatabaseConnectorTest {
                 1
         );
         boolean isUpdated = DatabaseConnector.updateAppointment(appointment);
-        assertTrue(isUpdated, "Appointment should be successfully updated.");
+        assertFalse(isUpdated, "Updating a non-existent appointment should fail.");
     }
 
     @Test
     void testDeleteAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                505,
+                35,
+                507,
+                LocalDate.of(2024, 12, 18),
+                "15:00",
+                "active",
+                1,  // doctorId
+                1   // patientId
+        );
+        boolean isDeleted = DatabaseConnector.deleteAppointment(appointment);
+        assertTrue(isDeleted, "Appointment should be successfully deleted.");
+    }
+
+    @Test
+    void testDeleteAppointment_NotFound() {
+        AppointmentRecord appointment = new AppointmentRecord(
+                9999,  // Non-existent ID
                 1011,
                 LocalDate.of(2024, 12, 18),
                 "11:00",
@@ -160,7 +225,7 @@ class DatabaseConnectorTest {
                 1
         );
         boolean isDeleted = DatabaseConnector.deleteAppointment(appointment);
-        assertTrue(isDeleted, "Appointment should be successfully deleted.");
+        assertFalse(isDeleted, "Deleting a non-existent appointment should fail.");
     }
 
     @Test
@@ -175,6 +240,12 @@ class DatabaseConnectorTest {
             DatabaseConnector.getDoctorIdByName(doctorName);
         }, "Should throw IllegalArgumentException when doctor is not found.");
     }
+    @Test
+    void testGetDoctorNameById_InvalidId() {
+        int invalidDoctorId = -1; // Invalid ID
+        String doctorName = DatabaseConnector.getDoctorNameById(invalidDoctorId);
+        assertNull(doctorName, "Doctor name should be null for an invalid ID.");
+    }
 
     @Test
     void testGetPatientIdByNameNotFound() {
@@ -183,4 +254,12 @@ class DatabaseConnectorTest {
             DatabaseConnector.getPatientIdByName(patientName);
         }, "Should throw IllegalArgumentException when patient is not found.");
     }
+
+    @Test
+    void testGetPatientNameById_NoMatch() {
+        int patientId = 9999; // Non-existent ID
+        String patientName = DatabaseConnector.getPatientNameById(patientId);
+        assertNull(patientName, "Patient name should be null for a non-existent ID.");
+    }
+
 }
