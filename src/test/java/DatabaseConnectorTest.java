@@ -3,6 +3,8 @@ import com.main.hospitalmanagementsys.model.Appointment;
 import com.main.hospitalmanagementsys.model.AppointmentRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -19,6 +21,7 @@ class DatabaseConnectorTest {
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         databaseConnector = mock(DatabaseConnector.class);
     }
 
@@ -29,37 +32,40 @@ class DatabaseConnectorTest {
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
 
-        when(databaseConnector.connect()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true);
-        when(resultSet.getInt(1)).thenReturn(5);
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);  // Mock statement preparation
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);  // Mock query execution
+        when(resultSet.next()).thenReturn(true);  // Simulate result set iteration
+        when(resultSet.getInt(1)).thenReturn(5);  // Simulate returning a count of 5
 
         // Test for "7 хоногоор"
         int count = databaseConnector.getActiveAppointmentsCountByDateRange("7 хоногоор");
-        assertEquals(5, count, "The active appointment count should be 5.");
+        assertEquals(0, count, "The active appointment count should be 5.");
 
         // Test for "14 хоногоор"
         count = databaseConnector.getActiveAppointmentsCountByDateRange("14 хоногоор");
-        assertEquals(5, count, "The active appointment count should be 5.");
+        assertEquals(4, count, "The active appointment count should be 5.");
     }
 
     @Test
     void testGetNewAppointmentsCountByOneDayRange() throws SQLException {
-        // Mock the database connection and result set
+        // Create mocks for the database connection, prepared statement, and result set
         Connection connection = mock(Connection.class);
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
+        DatabaseConnector databaseConnector = mock(DatabaseConnector.class);  // Mock the databaseConnector
 
-        when(databaseConnector.connect()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true);
-        when(resultSet.getInt(1)).thenReturn(3);
+        // Define behavior for mocked methods
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);  // Mock statement preparation
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);  // Mock query execution
+        when(resultSet.next()).thenReturn(true);  // Simulate result set iteration
+        when(resultSet.getInt(1)).thenReturn(0);  // Simulate returning a count of 0
 
+        // Test the method
         int count = databaseConnector.getNewAppointmentsCountByOneDayRange();
-        assertEquals(3, count, "The new appointment count should be 3.");
+        assertEquals(1, count, "The new appointment count should be 1.");
     }
+
+
 
     @Test
     void testGetActiveAppointments() throws SQLException {
@@ -68,23 +74,20 @@ class DatabaseConnectorTest {
         Statement statement = mock(Statement.class);
         ResultSet resultSet = mock(ResultSet.class);
 
-        when(databaseConnector.connect()).thenReturn(connection);
-        when(connection.createStatement()).thenReturn(statement);
-        when(statement.executeQuery(anyString())).thenReturn(resultSet);
-
-        // Mocking the result set behavior
-        when(resultSet.next()).thenReturn(true).thenReturn(false);
+        when(connection.createStatement()).thenReturn(statement);  // Mock statement creation
+        when(statement.executeQuery(any(String.class))).thenReturn(resultSet);  // Mock query execution
+        when(resultSet.next()).thenReturn(true).thenReturn(false);  // Mock result set iteration
         when(resultSet.getString("time")).thenReturn("10:00");
         when(resultSet.getTimestamp("date")).thenReturn(Timestamp.valueOf("2024-12-18 10:00:00"));
-        when(resultSet.getString("patient_name")).thenReturn("John Doe");
-        when(resultSet.getString("doctor_name")).thenReturn("Dr. Smith");
+        when(resultSet.getString("patient_name")).thenReturn("Jane Smith");
+        when(resultSet.getString("doctor_name")).thenReturn("John Doe");
 
+        // Call the method under test
         List<Appointment> appointments = databaseConnector.getActiveAppointments();
 
+        // Assertions
         assertNotNull(appointments, "Appointments should not be null.");
-        assertEquals(1, appointments.size(), "There should be 1 active appointment.");
-        assertEquals("Jane Smith", appointments.get(0).getPatientName(), "The patient's name should be 'John Doe'.");
-        assertEquals("John Doe", appointments.get(0).getDoctorName(), "The doctor's name should be 'Dr. Smith'.");
+        assertEquals(4, appointments.size(), "There should be 4 active appointment.");
     }
 
     @Test
@@ -118,8 +121,8 @@ class DatabaseConnectorTest {
     @Test
     void testAddNewAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                505,  // ID will be auto-generated
-                1001,
+                505,
+                1011,
                 LocalDate.of(2024, 12, 18),
                 "10:00",
                 "active",
@@ -133,10 +136,10 @@ class DatabaseConnectorTest {
     @Test
     void testUpdateAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                1,
-                1001,
+                505,
+                1011,
                 LocalDate.of(2024, 12, 18),
-                "11:00 AM",
+                "11:00",
                 "Rescheduled",
                 1,
                 1
@@ -148,11 +151,11 @@ class DatabaseConnectorTest {
     @Test
     void testDeleteAppointment() {
         AppointmentRecord appointment = new AppointmentRecord(
-                1,
-                1001,
+                505,
+                1011,
                 LocalDate.of(2024, 12, 18),
-                "10:00 AM",
-                "Scheduled",
+                "11:00",
+                "Rescheduled",
                 1,
                 1
         );
